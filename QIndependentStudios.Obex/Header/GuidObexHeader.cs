@@ -7,7 +7,12 @@ namespace QIndependentStudios.Obex.Header
     {
         public Guid Value { get; protected set; }
 
-        public static GuidObexHeader Create(ObexHeaderId id, Guid value, ushort? headerLength = null)
+        public static GuidObexHeader Create(ObexHeaderId id, Guid value)
+        {
+            return new GuidObexHeader { Id = id, Value = value };
+        }
+
+        public static GuidObexHeader Create(ObexHeaderId id, ushort headerLength, Guid value)
         {
             return new GuidObexHeader { Id = id, ActualLength = headerLength, Value = value };
         }

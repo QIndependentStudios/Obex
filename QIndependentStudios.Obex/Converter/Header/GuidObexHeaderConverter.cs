@@ -7,8 +7,8 @@ namespace QIndependentStudios.Obex.Converter.Header
         public override ObexHeader FromBytes(byte[] bytes)
         {
             return GuidObexHeader.Create((ObexHeaderId)bytes[0],
-                ObexBitConverter.ToGuid(ExtractValueBytes(bytes)),
-                GetHeaderSize(bytes));
+                GetHeaderSize(bytes),
+                ObexBitConverter.ToGuid(ExtractValueBytes(bytes)));
         }
 
         protected override byte[] ValueToBytes(ObexHeader header)

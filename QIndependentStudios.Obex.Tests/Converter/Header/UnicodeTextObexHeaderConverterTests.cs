@@ -15,8 +15,8 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
             0x6D, 0x00, 0x00
         };
         private static readonly ObexHeader _testHeader = UnicodeTextObexHeader.Create(ObexHeaderId.Name,
-            "telecom",
-            19);
+            19,
+            "telecom");
         private readonly UnicodeTextObexHeaderConverter _converter = new UnicodeTextObexHeaderConverter();
 
         [TestMethod]

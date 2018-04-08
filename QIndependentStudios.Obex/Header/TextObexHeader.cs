@@ -6,7 +6,12 @@ namespace QIndependentStudios.Obex.Header
     {
         public string Value { get; protected set; }
 
-        public static TextObexHeader Create(ObexHeaderId id, string value, ushort? headerLength = null)
+        public static TextObexHeader Create(ObexHeaderId id, string value)
+        {
+            return new TextObexHeader { Id = id, Value = value };
+        }
+
+        public static TextObexHeader Create(ObexHeaderId id, ushort headerLength, string value)
         {
             return new TextObexHeader { Id = id, ActualLength = headerLength, Value = value };
         }

@@ -16,8 +16,8 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
             0x0C, 0x9A, 0x66
         };
         private static readonly ObexHeader _testHeader = GuidObexHeader.Create(ObexHeaderId.Target,
-            Guid.Parse("bb582b40-420c-11db-b0de-0800200c9a66"),
-            19);
+            19,
+            Guid.Parse("bb582b40-420c-11db-b0de-0800200c9a66"));
 
         private readonly GuidObexHeaderConverter _converter = new GuidObexHeaderConverter();
 

@@ -15,8 +15,8 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
             0x6C, 0x69, 0x73, 0x74, 0x69, 0x6E, 0x67, 0x00
         };
         private static readonly ObexHeader _testHeader = TextObexHeader.Create(ObexHeaderId.Type,
-            "x-bt/MAP-msg-listing",
-            24);
+            24,
+            "x-bt/MAP-msg-listing");
 
         private readonly TextObexHeaderConverter _converter = new TextObexHeaderConverter();
 
