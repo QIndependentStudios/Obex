@@ -15,6 +15,14 @@ namespace QIndependentStudios.Obex.Converter.Header
             return AppParamObexHeader.Create(GetHeaderSize(bytes), parameters);
         }
 
+        protected override byte[] ValueToBytes(ObexHeader header)
+        {
+            if (header is AppParamObexHeader appParamHeader)
+                return GetBytes(appParamHeader.Parameters);
+
+            return new byte[0];
+        }
+
         private IEnumerable<ObexAppParameter> GetApplicationParameters(byte[] bytes)
         {
             var parameters = new List<ObexAppParameter>();
@@ -46,14 +54,6 @@ namespace QIndependentStudios.Obex.Converter.Header
             }
 
             return bytes.ToArray();
-        }
-
-        protected override byte[] ValueToBytes(ObexHeader header)
-        {
-            if (header is AppParamObexHeader appParamHeader)
-                return GetBytes(appParamHeader.Parameters);
-
-            return new byte[0];
         }
     }
 }
