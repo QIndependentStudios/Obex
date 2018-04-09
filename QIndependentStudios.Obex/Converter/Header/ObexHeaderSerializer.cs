@@ -3,7 +3,7 @@ using QIndependentStudios.Obex.Header;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QDev.Obex.Header
+namespace QIndependentStudios.Obex.Converter.Header
 {
     public class ObexHeaderSerializer
     {
