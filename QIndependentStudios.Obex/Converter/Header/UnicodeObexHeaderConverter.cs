@@ -5,6 +5,11 @@ namespace QIndependentStudios.Obex.Converter.Header
 {
     public class UnicodeTextObexHeaderConverter : RawObexHeaderConverter
     {
+        protected UnicodeTextObexHeaderConverter()
+        { }
+
+        public new static UnicodeTextObexHeaderConverter Instance { get; } = new UnicodeTextObexHeaderConverter();
+
         public override ObexHeader FromBytes(byte[] bytes)
         {
             return UnicodeTextObexHeader.Create((ObexHeaderId)bytes[0],

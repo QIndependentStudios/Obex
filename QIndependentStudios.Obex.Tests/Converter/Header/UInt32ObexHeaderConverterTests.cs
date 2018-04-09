@@ -12,7 +12,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
         private static readonly ObexHeader _testHeader =
             UInt32ObexHeader.Create(ObexHeaderId.ConnectionId, 2323);
 
-        private readonly UInt32ObexHeaderConverter _converter = new UInt32ObexHeaderConverter();
+        private readonly UInt32ObexHeaderConverter _converter = UInt32ObexHeaderConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenHeaderByteData_ReturnsHeaderObject()

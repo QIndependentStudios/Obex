@@ -4,6 +4,11 @@ namespace QIndependentStudios.Obex.Converter.Header
 {
     public class UInt32ObexHeaderConverter : ObexHeaderConverterBase
     {
+        protected UInt32ObexHeaderConverter()
+        { }
+
+        public static UInt32ObexHeaderConverter Instance { get; } = new UInt32ObexHeaderConverter();
+
         public override int? HeaderLengthOverride => 5;
 
         public override ObexHeader FromBytes(byte[] bytes)

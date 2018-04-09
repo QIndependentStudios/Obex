@@ -18,7 +18,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
             24,
             "x-bt/MAP-msg-listing");
 
-        private readonly TextObexHeaderConverter _converter = new TextObexHeaderConverter();
+        private readonly TextObexHeaderConverter _converter = TextObexHeaderConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenHeaderByteData_ReturnsHeaderObject()

@@ -21,7 +21,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
         };
         private static readonly ObexHeader _testHeader = AppParamObexHeader.Create(11, _testHeaderValue);
 
-        private readonly AppParamObexHeaderConverter _converter = new AppParamObexHeaderConverter();
+        private readonly AppParamObexHeaderConverter _converter = AppParamObexHeaderConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenHeaderByteData_ReturnsHeaderObject()

@@ -19,7 +19,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
             19,
             Guid.Parse("bb582b40-420c-11db-b0de-0800200c9a66"));
 
-        private readonly GuidObexHeaderConverter _converter = new GuidObexHeaderConverter();
+        private readonly GuidObexHeaderConverter _converter = GuidObexHeaderConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenHeaderByteData_ReturnsHeaderObject()

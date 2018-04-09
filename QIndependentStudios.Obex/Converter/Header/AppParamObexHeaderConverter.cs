@@ -7,6 +7,11 @@ namespace QIndependentStudios.Obex.Converter.Header
 {
     public class AppParamObexHeaderConverter : RawObexHeaderConverter
     {
+        protected AppParamObexHeaderConverter()
+        { }
+
+        public new static AppParamObexHeaderConverter Instance { get; } = new AppParamObexHeaderConverter();
+
         public override ObexHeader FromBytes(byte[] bytes)
         {
             var parametersData = ExtractValueBytes(bytes);

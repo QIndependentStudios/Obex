@@ -17,7 +17,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
         private static readonly ObexHeader _testHeader = RawObexHeader.Create(ObexHeaderId.Type,
             _testHeaderData.Skip(3).ToArray());
 
-        private readonly RawObexHeaderConverter _converter = new RawObexHeaderConverter();
+        private readonly RawObexHeaderConverter _converter = RawObexHeaderConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenHeaderByteData_ReturnsHeaderObject()

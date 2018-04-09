@@ -4,6 +4,11 @@ namespace QIndependentStudios.Obex.Converter.Header
 {
     public class GuidObexHeaderConverter : RawObexHeaderConverter
     {
+        protected GuidObexHeaderConverter()
+        { }
+
+        public new static GuidObexHeaderConverter Instance { get; } = new GuidObexHeaderConverter();
+
         public override ObexHeader FromBytes(byte[] bytes)
         {
             return GuidObexHeader.Create((ObexHeaderId)bytes[0],

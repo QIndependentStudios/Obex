@@ -13,7 +13,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
         private static readonly ObexHeader _testHeader =
             ByteObexHeader.Create(ObexHeaderId.SingleResponseMode, TestHeaderValue);
 
-        private readonly ByteObexHeaderConverter _converter = new ByteObexHeaderConverter();
+        private readonly ByteObexHeaderConverter _converter = ByteObexHeaderConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenHeaderByteData_ReturnsHeaderObject()

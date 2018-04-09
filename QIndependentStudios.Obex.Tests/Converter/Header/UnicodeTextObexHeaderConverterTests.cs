@@ -17,7 +17,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
         private static readonly ObexHeader _testHeader = UnicodeTextObexHeader.Create(ObexHeaderId.Name,
             19,
             "telecom");
-        private readonly UnicodeTextObexHeaderConverter _converter = new UnicodeTextObexHeaderConverter();
+        private readonly UnicodeTextObexHeaderConverter _converter = UnicodeTextObexHeaderConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenHeaderByteData_ReturnsHeaderObject()
