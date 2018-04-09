@@ -26,7 +26,7 @@ namespace QIndependentStudios.Obex.Tests
             _connection.Setup(c => c.ReadAsync(1)).Returns(Task.FromResult(new byte[] { (byte)ObexResponseCode.Ok }));
             _connection.Setup(c => c.ReadAsync(2)).Returns(Task.FromResult(new byte[] { 0x00, 0x03 }));
 
-            var actual = await _client.GetAsync(request);
+            await _client.GetAsync(request);
 
             _connection.Verify(c => c.EnsureInitAsync(), Times.Once);
             _connection.Verify(c => c.WriteAsync(new byte[] { 0x83, 0x00, 0x03 }), Times.Once);
@@ -43,7 +43,7 @@ namespace QIndependentStudios.Obex.Tests
             _connection.Setup(c => c.ReadAsync(9))
                 .Returns(Task.FromResult(new byte[] { 0x10, 0x00, 0x00, 0xFF, (byte)ObexHeaderId.ConnectionId, 0x00, 0x00, 0x00, 0x01 }));
 
-            var actual = await _client.GetAsync(request);
+            await _client.GetAsync(request);
 
             _connection.Verify(c => c.EnsureInitAsync(), Times.Once);
             _connection.Verify(c => c.WriteAsync(new byte[] { 0x80, 0x00, 0x07, 0x10, 0x00, 0x00, 0xFF }), Times.Once);
