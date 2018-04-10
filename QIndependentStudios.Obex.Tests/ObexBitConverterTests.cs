@@ -10,8 +10,23 @@ namespace QIndependentStudios.Obex.Tests
     {
         public const string _testString = "A1😊";
 
+        public static readonly Guid _testGuid = Guid.Parse("bb582b40-420c-11db-b0de-0800200c9a66");
+
+
+        public static readonly byte[] _testGuidBytes = new byte[]
+        {
+            0xBB, 0x58, 0x2B, 0x40, 0x42, 0x0C, 0x11, 0xDB,
+            0xB0, 0xDE, 0x08, 0x00, 0x20, 0x0C, 0x9A, 0x66
+        };
         public static readonly byte[] _testStringBytes = new byte[] { 0x41, 0x31, 0xF0, 0x9F, 0x98, 0x8A };
         public static readonly byte[] _testUnicodeStringBytes = new byte[] { 0x00, 0x41, 0x00, 0x31, 0xD8, 0x3D, 0xDE, 0x0A };
+
+        [TestMethod]
+        public void GetBytes_Guid_ReturnsGuidBytes()
+        {
+            var actual = ObexBitConverter.GetBytes(_testGuid);
+            Assert.IsTrue(_testGuidBytes.SequenceEqual(actual));
+        }
 
         [TestMethod]
         public void GetBytes_StringWithNullEncoding_ReturnsUtf8Bytes()
@@ -40,6 +55,20 @@ namespace QIndependentStudios.Obex.Tests
         {
             var actual = ObexBitConverter.GetBytes(_testString, Encoding.BigEndianUnicode);
             Assert.IsTrue(_testUnicodeStringBytes.SequenceEqual(actual));
+        }
+
+        [TestMethod]
+        public void ToGuid_NetworkGuidBytes_ReturnsGuid()
+        {
+            var actual = ObexBitConverter.ToGuid(_testGuidBytes);
+            Assert.AreEqual(_testGuid, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ToGuid_GuidBytesTooLong_ThrowsException()
+        {
+            ObexBitConverter.ToGuid(_testGuidBytes.Concat(new byte[] { 0x00 }).ToArray());
         }
 
         [TestMethod]

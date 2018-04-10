@@ -19,6 +19,24 @@ namespace QIndependentStudios.Obex
             return bytes.ToArray();
         }
 
+        private static byte[] AdjustGuidEndian(IEnumerable<byte> bytes)
+        {
+            var b = bytes.ToArray();
+            if (b.Length != 16)
+                throw new ArgumentException("Guids must be exactly 16 bytes in length.");
+
+            if (BitConverter.IsLittleEndian)
+                b = new byte[]
+                {
+                    b[3], b[2], b[1], b[0],
+                    b[5], b[4],
+                    b[7], b[6],
+                    b[8], b[9], b[10], b[11], b[12], b[13], b[14], b[15]
+                };
+
+            return b;
+        }
+
         public static byte[] GetBytes(ushort value)
         {
             return AdjustEndian(BitConverter.GetBytes(value));
@@ -62,12 +80,7 @@ namespace QIndependentStudios.Obex
 
         public static byte[] GetBytes(Guid guid)
         {
-            var b = guid.ToByteArray();
-            return AdjustEndian(b.Take(GuidFirstLength))
-                .Concat(AdjustEndian(b.Skip(GuidFirstLength).Take(GuidSecondLength)))
-                .Concat(AdjustEndian(b.Skip(GuidFirstLength + GuidSecondLength).Take(GuidThirdLength)))
-                .Concat(b.Skip(GuidFirstLength + GuidSecondLength + GuidThirdLength))
-                .ToArray();
+            return AdjustGuidEndian(guid.ToByteArray());
         }
 
         public static ushort ToUInt16(byte[] bytes)
@@ -119,14 +132,7 @@ namespace QIndependentStudios.Obex
 
         public static Guid ToGuid(byte[] bytes)
         {
-            if (bytes.Length != 16)
-                throw new ArgumentException("Guids must be exactly 16 bytes in length.");
-
-            return new Guid(AdjustEndian(bytes.Take(GuidFirstLength))
-                .Concat(AdjustEndian(bytes.Skip(GuidFirstLength).Take(GuidSecondLength)))
-                .Concat(AdjustEndian(bytes.Skip(GuidFirstLength + GuidSecondLength).Take(GuidThirdLength)))
-                .Concat(bytes.Skip(GuidFirstLength + GuidSecondLength + GuidThirdLength))
-                .ToArray());
+            return new Guid(AdjustGuidEndian(bytes));
         }
     }
 }
