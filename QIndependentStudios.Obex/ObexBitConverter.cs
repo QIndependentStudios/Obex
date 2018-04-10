@@ -49,9 +49,14 @@ namespace QIndependentStudios.Obex
             return AdjustEndian(BitConverter.GetBytes(value));
         }
 
-        public static byte[] GetBytes(string text, bool isUnicode = false)
+        public static byte[] GetBytes(string text, Encoding encoding = null)
         {
-            var encoding = isUnicode ? Encoding.BigEndianUnicode : Encoding.UTF8;
+            if (encoding == null)
+                encoding = Encoding.UTF8;
+
+            if (encoding == Encoding.Unicode)
+                encoding = Encoding.BigEndianUnicode;
+
             return encoding.GetBytes(text);
         }
 
@@ -95,10 +100,21 @@ namespace QIndependentStudios.Obex
             return BitConverter.ToInt64(AdjustEndian(bytes), 0);
         }
 
-        public static string ToString(byte[] bytes, bool isUnicode = false)
+        public static string ToString(byte[] bytes, Encoding encoding = null)
         {
-            var encoding = isUnicode ? Encoding.BigEndianUnicode : Encoding.UTF8;
+            if (encoding == null)
+                encoding = Encoding.UTF8;
+
+            if (encoding == Encoding.Unicode || encoding == Encoding.BigEndianUnicode)
+                throw new ArgumentException($"Use {nameof(ToUnicodeString)}() when expecting unicode encoding.",
+                    nameof(encoding));
+
             return encoding.GetString(bytes);
+        }
+
+        public static string ToUnicodeString(byte[] bytes)
+        {
+            return Encoding.BigEndianUnicode.GetString(bytes);
         }
 
         public static Guid ToGuid(byte[] bytes)

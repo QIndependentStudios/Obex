@@ -1,5 +1,6 @@
 ﻿using QIndependentStudios.Obex.Header;
 using System.Linq;
+using System.Text;
 
 namespace QIndependentStudios.Obex.Converter.Header
 {
@@ -14,7 +15,7 @@ namespace QIndependentStudios.Obex.Converter.Header
         {
             return UnicodeTextObexHeader.Create((ObexHeaderId)bytes[0],
                 GetHeaderSize(bytes),
-                ObexBitConverter.ToString(ExtractValueBytes(bytes), true).TrimEnd(char.MinValue));
+                ObexBitConverter.ToUnicodeString(ExtractValueBytes(bytes)).TrimEnd(char.MinValue));
         }
 
         protected override byte[] ValueToBytes(ObexHeader header)
@@ -27,7 +28,7 @@ namespace QIndependentStudios.Obex.Converter.Header
             if (!string.IsNullOrEmpty(value) && value.Last() != char.MinValue)
                 value += char.MinValue.ToString();
 
-            return ObexBitConverter.GetBytes(value, true);
+            return ObexBitConverter.GetBytes(value, Encoding.BigEndianUnicode);
         }
     }
 }
