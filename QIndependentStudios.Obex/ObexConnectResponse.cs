@@ -80,6 +80,7 @@ namespace QIndependentStudios.Obex
                 headers.ToList());
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is ObexConnectResponse response
@@ -89,6 +90,7 @@ namespace QIndependentStudios.Obex
                 && MaxPacketSize == response.MaxPacketSize;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = -1647789284;

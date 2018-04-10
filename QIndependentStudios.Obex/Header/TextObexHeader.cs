@@ -16,6 +16,7 @@ namespace QIndependentStudios.Obex.Header
             return new TextObexHeader { Id = id, ActualLength = headerLength, Value = value };
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is TextObexHeader header
@@ -23,6 +24,7 @@ namespace QIndependentStudios.Obex.Header
                 && Value == header.Value;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = -783812246;
@@ -31,6 +33,7 @@ namespace QIndependentStudios.Obex.Header
             return hashCode;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"{Id} - {Value}";

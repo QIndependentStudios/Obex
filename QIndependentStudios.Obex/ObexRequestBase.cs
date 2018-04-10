@@ -31,6 +31,7 @@ namespace QIndependentStudios.Obex
             }
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is ObexRequestBase request
@@ -39,6 +40,7 @@ namespace QIndependentStudios.Obex
                 && new SequenceEqualityComparer<ObexHeader>().Equals(_headers, request._headers);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = -1935681702;

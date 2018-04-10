@@ -18,6 +18,7 @@ namespace QIndependentStudios.Obex.Header
             return Create(id, value?.ToArray() ?? new byte[0]);
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is RawObexHeader header
@@ -25,6 +26,7 @@ namespace QIndependentStudios.Obex.Header
                 && new SequenceEqualityComparer<byte>().Equals(Value, header.Value);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = -783812246;
@@ -33,6 +35,7 @@ namespace QIndependentStudios.Obex.Header
             return hashCode;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"{Id} - {Value}";

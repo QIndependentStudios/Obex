@@ -31,6 +31,7 @@ namespace QIndependentStudios.Obex
             }
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is ObexResponseBase response
@@ -39,6 +40,7 @@ namespace QIndependentStudios.Obex
                 && EqualityComparer<ushort?>.Default.Equals(ActualLength, response.ActualLength);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = 79378678;

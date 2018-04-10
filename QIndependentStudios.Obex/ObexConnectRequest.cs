@@ -98,6 +98,7 @@ namespace QIndependentStudios.Obex
             return new ObexConnectRequest(requestLength, obexVersion, flag, maxPacketSize, headers);
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is ObexConnectRequest request
@@ -107,6 +108,7 @@ namespace QIndependentStudios.Obex
                 && MaxPacketSize == request.MaxPacketSize;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = -1647789284;

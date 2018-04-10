@@ -7,6 +7,7 @@ namespace QIndependentStudios.Obex.Header
         public ObexHeaderId Id { get; protected set; }
         public virtual ushort? ActualLength { get; protected set; }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is ObexHeader header
@@ -14,6 +15,7 @@ namespace QIndependentStudios.Obex.Header
                 && EqualityComparer<ushort?>.Default.Equals(ActualLength, header.ActualLength);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = 831783735;

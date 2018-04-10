@@ -12,6 +12,7 @@ namespace QIndependentStudios.Obex.Header
             return new UInt32ObexHeader { Id = id, Value = value };
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is UInt32ObexHeader header
@@ -20,6 +21,7 @@ namespace QIndependentStudios.Obex.Header
                 && Value == header.Value;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = -2059405511;
@@ -29,6 +31,7 @@ namespace QIndependentStudios.Obex.Header
             return hashCode;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"{Id} - {Value}";

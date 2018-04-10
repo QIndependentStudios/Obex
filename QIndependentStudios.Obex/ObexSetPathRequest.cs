@@ -84,6 +84,7 @@ namespace QIndependentStudios.Obex
             return new ObexSetPathRequest(requestLength, flags, constant, headers);
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is ObexSetPathRequest request
@@ -92,6 +93,7 @@ namespace QIndependentStudios.Obex
                 && Constant == request.Constant;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = -109303055;
