@@ -21,7 +21,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
             ObexSetPathFlag.DownToNameOrRoot,
             UInt32ObexHeader.Create(ObexHeaderId.ConnectionId, 1),
             UnicodeTextObexHeader.Create(ObexHeaderId.Name, 19, "telecom"));
-        private readonly ObexSetPathRequestConverter _converter = new ObexSetPathRequestConverter();
+        private readonly ObexSetPathRequestConverter _converter = ObexSetPathRequestConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenSetPathRequestData_ReturnsSetPatRequestObject()

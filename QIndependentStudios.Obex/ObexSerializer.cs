@@ -8,8 +8,8 @@ namespace QIndependentStudios.Obex
     {
         private static Dictionary<ObexOpCode, IObexRequestConverter> _requestConverters = new Dictionary<ObexOpCode, IObexRequestConverter>
         {
-            { ObexOpCode.Connect, new ObexConnectRequestConverter() },
-            { ObexOpCode.SetPath, new ObexSetPathRequestConverter() }
+            { ObexOpCode.Connect, ObexConnectRequestConverter.Instance },
+            { ObexOpCode.SetPath, ObexSetPathRequestConverter.Instance }
         };
 
         public static byte[] SerializeRequest(ObexRequestBase request)
@@ -29,8 +29,8 @@ namespace QIndependentStudios.Obex
         public static byte[] SerializeResponse(ObexResponseBase response)
         {
             var converter = response is ObexConnectResponse
-                ? new ObexConnectResponseConverter()
-                : new ObexResponseConverter();
+                ? ObexConnectResponseConverter.Instance
+                : ObexResponseConverter.Instance;
 
             return converter.ToBytes(response);
         }
@@ -38,8 +38,8 @@ namespace QIndependentStudios.Obex
         public static ObexResponseBase DeserializeResponse(byte[] bytes, bool isConnectResponse)
         {
             var converter = isConnectResponse
-                ? new ObexConnectResponseConverter()
-                : new ObexResponseConverter();
+                ? ObexConnectResponseConverter.Instance
+                : ObexResponseConverter.Instance;
 
             return converter.FromBytes(bytes);
         }
@@ -49,7 +49,7 @@ namespace QIndependentStudios.Obex
             if (_requestConverters.ContainsKey(opCode))
                 return _requestConverters[opCode];
 
-            return new ObexRequestConverter();
+            return ObexRequestConverter.Instance;
         }
     }
 }

@@ -3,10 +3,26 @@ using System.Collections.Generic;
 
 namespace QIndependentStudios.Obex.Converter.Request
 {
+    /// <summary>
+    /// Converts Connect Obex requests to and from binary data.
+    /// </summary>
     public class ObexConnectRequestConverter : ObexRequestConverter
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObexConnectRequestConverter"/> class.
+        /// </summary>
+        protected ObexConnectRequestConverter()
+        { }
+
+        /// <summary>
+        /// Gets the instance of the <see cref="ObexConnectRequestConverter"/> class.
+        /// </summary>
+        public new static ObexConnectRequestConverter Instance { get; } = new ObexConnectRequestConverter();
+
+        /// <inheritdoc/>
         protected override int FieldBytesLength => 7;
 
+        /// <inheritdoc/>
         protected override List<byte> GetFieldBytes(ObexRequestBase request)
         {
             if (request.OpCode != ObexOpCode.Connect || !(request is ObexConnectRequest connectRequest))
@@ -26,6 +42,7 @@ namespace QIndependentStudios.Obex.Converter.Request
             return bytes;
         }
 
+        /// <inheritdoc/>
         protected override ObexRequestBase FromBytesCore(byte[] bytes)
         {
             var opCode = (ObexOpCode)bytes[0];

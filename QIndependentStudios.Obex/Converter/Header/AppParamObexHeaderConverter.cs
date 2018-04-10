@@ -5,13 +5,23 @@ using System.Linq;
 
 namespace QIndependentStudios.Obex.Converter.Header
 {
+    /// <summary>
+    /// Converts Obex Application Parameter headers to and from binary data.
+    /// </summary>
     public class AppParamObexHeaderConverter : RawObexHeaderConverter
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppParamObexHeaderConverter"/> class.
+        /// </summary>
         protected AppParamObexHeaderConverter()
         { }
 
+        /// <summary>
+        /// Gets the instance of the <see cref="AppParamObexHeaderConverter"/> class.
+        /// </summary>
         public new static AppParamObexHeaderConverter Instance { get; } = new AppParamObexHeaderConverter();
 
+        /// <inheritdoc/>
         public override ObexHeader FromBytes(byte[] bytes)
         {
             var parametersData = ExtractValueBytes(bytes);
@@ -20,6 +30,7 @@ namespace QIndependentStudios.Obex.Converter.Header
             return AppParamObexHeader.Create(GetHeaderSize(bytes), parameters);
         }
 
+        /// <inheritdoc/>
         protected override byte[] ValueToBytes(ObexHeader header)
         {
             if (header is AppParamObexHeader appParamHeader)

@@ -4,10 +4,26 @@ using System.Collections.Generic;
 
 namespace QIndependentStudios.Obex.Converter.Request
 {
+    /// <summary>
+    /// Converts Set Path Obex requests to and from binary data.
+    /// </summary>
     public class ObexSetPathRequestConverter : ObexRequestConverter
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObexSetPathRequestConverter"/> class.
+        /// </summary>
+        protected ObexSetPathRequestConverter()
+        { }
+
+        /// <summary>
+        /// Gets the instance of the <see cref="ObexSetPathRequestConverter"/> class.
+        /// </summary>
+        public new static ObexSetPathRequestConverter Instance { get; } = new ObexSetPathRequestConverter();
+
+        /// <inheritdoc/>
         protected override int FieldBytesLength => 5;
 
+        /// <inheritdoc/>
         protected override List<byte> GetFieldBytes(ObexRequestBase request)
         {
             if (request.OpCode != ObexOpCode.SetPath || !(request is ObexSetPathRequest setPathRequest))
@@ -25,6 +41,7 @@ namespace QIndependentStudios.Obex.Converter.Request
             return bytes;
         }
 
+        /// <inheritdoc/>
         protected override ObexRequestBase FromBytesCore(byte[] bytes)
         {
             var opCode = (ObexOpCode)bytes[0];

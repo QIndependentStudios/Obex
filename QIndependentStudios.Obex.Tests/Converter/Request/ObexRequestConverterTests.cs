@@ -22,7 +22,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
             33,
             UInt32ObexHeader.Create(ObexHeaderId.ConnectionId, 1),
             TextObexHeader.Create(ObexHeaderId.Type, 25, "x-obex/folder-listing"));
-        private readonly ObexRequestConverter _converter = new ObexRequestConverter();
+        private readonly ObexRequestConverter _converter = ObexRequestConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenRequestData_ReturnsRequestObject()

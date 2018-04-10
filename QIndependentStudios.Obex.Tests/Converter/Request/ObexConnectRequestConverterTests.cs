@@ -19,7 +19,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
         private static readonly ObexRequestBase _testConnectRequest = ObexConnectRequest.Create(26,
             5120,
             GuidObexHeader.Create(ObexHeaderId.Target, 19, Guid.Parse("bb582b40-420c-11db-b0de-0800200c9a66")));
-        private readonly ObexConnectRequestConverter _converter = new ObexConnectRequestConverter();
+        private readonly ObexConnectRequestConverter _converter = ObexConnectRequestConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenConnectRequestData_ReturnsConnectRequestObject()
