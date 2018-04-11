@@ -4,28 +4,57 @@ using System.Linq;
 
 namespace QIndependentStudios.Obex.Header
 {
+    /// <summary>
+    /// Represents an Obex header that has a collection of application parameters.
+    /// </summary>
     public class AppParamObexHeader : ObexHeader
     {
         private IEnumerable<ObexAppParameter> _parameters;
 
-        protected AppParamObexHeader(IEnumerable<ObexAppParameter> parameters, ushort? headerLength)
+        private AppParamObexHeader(IEnumerable<ObexAppParameter> parameters, ushort? headerLength)
         {
             Id = ObexHeaderId.ApplicationParameter;
             ActualLength = headerLength;
             _parameters = parameters ?? new List<ObexAppParameter>();
         }
 
+        /// <summary>
+        /// Gets the application parameters in the header.
+        /// </summary>
         public IEnumerable<ObexAppParameter> Parameters => _parameters.ToList().AsReadOnly();
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="AppParamObexHeader"/> class with Obex application parameters.
+        /// </summary>
+        /// <param name="parameters">The Obex application parameters for the header.</param>
+        /// <returns>The created header.</returns>
         public static AppParamObexHeader Create(params ObexAppParameter[] parameters)
             => new AppParamObexHeader(parameters, null);
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="AppParamObexHeader"/> class with Obex application parameters.
+        /// </summary>
+        /// <param name="parameters">The Obex application parameters for the header.</param>
+        /// <returns>The created header.</returns>
         public static AppParamObexHeader Create(IEnumerable<ObexAppParameter> parameters)
             => new AppParamObexHeader(parameters, null);
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="AppParamObexHeader"/> class with Obex application parameters and header length.
+        /// </summary>
+        /// <param name="parameters">The Obex application parameters for the header.</param>
+        /// <param name="headerLength">The header length. provide this value when deserializing from binary data.</param>
+        /// <returns>The created header.</returns>
         public static AppParamObexHeader Create(ushort? headerLength, params ObexAppParameter[] parameters)
             => new AppParamObexHeader(parameters, headerLength);
 
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="AppParamObexHeader"/> class with Obex application parameters and header length.
+        /// </summary>
+        /// <param name="parameters">The Obex application parameters for the header.</param>
+        /// <param name="headerLength">The header length. provide this value when deserializing from binary data.</param>
+        /// <returns>The created header.</returns>
         public static AppParamObexHeader Create(ushort? headerLength, IEnumerable<ObexAppParameter> parameters)
             => new AppParamObexHeader(parameters, headerLength);
 

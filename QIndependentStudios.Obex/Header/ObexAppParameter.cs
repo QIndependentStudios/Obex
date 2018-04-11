@@ -3,19 +3,32 @@ using System;
 
 namespace QIndependentStudios.Obex.Header
 {
+    /// <summary>
+    /// Represents an Obex application parameter that can be included in an Obex application parameter header.
+    /// </summary>
     public class ObexAppParameter
     {
-        protected ObexAppParameter(byte tag, byte[] value)
-        {
-            Tag = tag;
-            Value = value;
-        }
+        private ObexAppParameter()
+        { }
 
-        public byte Tag { get; }
-        public byte[] Value { get; }
+        /// <summary>
+        /// Gets the tag determining what kind of parameter it is.
+        /// </summary>
+        public byte Tag { get; protected set; }
 
+        /// <summary>
+        /// Gets the value of the parameter.
+        /// </summary>
+        public byte[] Value { get; protected set; }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="ObexAppParameter"/> class.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static ObexAppParameter Create(byte tag, params byte[] value)
-            => new ObexAppParameter(tag, value);
+            => new ObexAppParameter { Tag = tag, Value = value };
 
         /// <inheritdoc/>
         public override bool Equals(object obj)

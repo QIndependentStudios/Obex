@@ -2,11 +2,28 @@
 
 namespace QIndependentStudios.Obex.Header
 {
+    /// <summary>
+    /// Represents an Obex header with a value of a single byte and no length.
+    /// </summary>
     public class ByteObexHeader : ObexHeader
     {
+        private ByteObexHeader()
+        { }
+
+        /// <inheritdoc/>
         public override ushort? ActualLength => 2;
+
+        /// <summary>
+        /// Gets the value of the header.
+        /// </summary>
         public byte Value { get; protected set; }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ByteObexHeader"/> class with a single byte value.
+        /// </summary>
+        /// <param name="id">The id of the header.</param>
+        /// <param name="value">The value of the header.</param>
+        /// <returns>The created header.</returns>
         public static ByteObexHeader Create(ObexHeaderId id, byte value)
         {
             return new ByteObexHeader { Id = id, Value = value };

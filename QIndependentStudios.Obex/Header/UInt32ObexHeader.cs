@@ -2,11 +2,28 @@
 
 namespace QIndependentStudios.Obex.Header
 {
+    /// <summary>
+    /// Represents an Obex header that with a single unsigned integer value and no length.
+    /// </summary>
     public class UInt32ObexHeader : ObexHeader
     {
+        private UInt32ObexHeader()
+        { }
+
+        /// <inheritdoc/>
         public override ushort? ActualLength => 5;
+
+        /// <summary>
+        /// Gets the value of the header.
+        /// </summary>
         public uint Value { get; protected set; }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="UInt32ObexHeader"/> class with an unsigned integer value.
+        /// </summary>
+        /// <param name="id">The id of the header.</param>
+        /// <param name="value">The value of the header.</param>
+        /// <returns>The created header.</returns>
         public static UInt32ObexHeader Create(ObexHeaderId id, uint value)
         {
             return new UInt32ObexHeader { Id = id, Value = value };

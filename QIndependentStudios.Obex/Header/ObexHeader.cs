@@ -2,9 +2,26 @@
 
 namespace QIndependentStudios.Obex.Header
 {
+    /// <summary>
+    /// Represents an Obex header.
+    /// </summary>
     public class ObexHeader
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObexHeader"/> class.
+        /// </summary>
+        protected ObexHeader()
+        { }
+
+        /// <summary>
+        /// Gets the Id determining what kind of header it is.
+        /// </summary>
         public ObexHeaderId Id { get; protected set; }
+
+        /// <summary>
+        /// If available, gets the total length of the binary data of the the header.
+        /// Usually set if the header was created by deserialization or if the header has a fixed length.
+        /// </summary>
         public virtual ushort? ActualLength { get; protected set; }
 
         /// <inheritdoc/>

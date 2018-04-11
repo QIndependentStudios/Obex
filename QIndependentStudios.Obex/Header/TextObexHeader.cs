@@ -2,15 +2,37 @@
 
 namespace QIndependentStudios.Obex.Header
 {
+    /// <summary>
+    /// Represents an Obex header with a text value that will be encoded as null-terminating Utf-8.
+    /// </summary>
     public class TextObexHeader : ObexHeader
     {
+        private TextObexHeader()
+        { }
+
+        /// <summary>
+        /// Gets the value of the header.
+        /// </summary>
         public string Value { get; protected set; }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="TextObexHeader"/> class with a text value.
+        /// </summary>
+        /// <param name="id">The id of the header.</param>
+        /// <param name="value">The value of the header.</param>
+        /// <returns>The created header.</returns>
         public static TextObexHeader Create(ObexHeaderId id, string value)
         {
             return new TextObexHeader { Id = id, Value = value };
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="TextObexHeader"/> class with a text value.
+        /// </summary>
+        /// <param name="id">The id of the header.</param>
+        /// <param name="value">The value of the header.</param>
+        /// <param name="headerLength">The header length. provide this value when deserializing from binary data.</param>
+        /// <returns>The created header.</returns>
         public static TextObexHeader Create(ObexHeaderId id, ushort headerLength, string value)
         {
             return new TextObexHeader { Id = id, ActualLength = headerLength, Value = value };
