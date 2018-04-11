@@ -5,12 +5,11 @@ using System.Text;
 
 namespace QIndependentStudios.Obex
 {
+    /// <summary>
+    /// Converts values to and from network order binary format.
+    /// </summary>
     public class ObexBitConverter
     {
-        private const int GuidFirstLength = 4;
-        private const int GuidSecondLength = 2;
-        private const int GuidThirdLength = 2;
-
         private static byte[] AdjustEndian(IEnumerable<byte> bytes)
         {
             if (BitConverter.IsLittleEndian)
@@ -37,36 +36,72 @@ namespace QIndependentStudios.Obex
             return b;
         }
 
+        /// <summary>
+        /// Converts a <see cref="ushort"/> value to network order binary format.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The converted value.</returns>
         public static byte[] GetBytes(ushort value)
         {
             return AdjustEndian(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Converts a <see cref="short"/> value to network order binary format.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The converted value.</returns>
         public static byte[] GetBytes(short value)
         {
             return AdjustEndian(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Converts a <see cref="uint"/> value to network order binary format.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The converted value.</returns>
         public static byte[] GetBytes(uint value)
         {
             return AdjustEndian(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Converts a <see cref="int"/> value to network order binary format.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The converted value.</returns>
         public static byte[] GetBytes(int value)
         {
             return AdjustEndian(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Converts a <see cref="ulong"/> value to network order binary format.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The converted value.</returns>
         public static byte[] GetBytes(ulong value)
         {
             return AdjustEndian(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Converts a <see cref="long"/> value to network order binary format.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The converted value.</returns>
         public static byte[] GetBytes(long value)
         {
             return AdjustEndian(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Converts a <see cref="string"/> value to network order binary format based on encoding.
+        /// </summary>
+        /// <param name="text">The value to convert.</param>
+        /// <param name="encoding">The encoding of the text value.</param>
+        /// <returns>The converted value.</returns>
         public static byte[] GetBytes(string text, Encoding encoding = null)
         {
             if (encoding == null)
@@ -78,41 +113,82 @@ namespace QIndependentStudios.Obex
             return encoding.GetBytes(text);
         }
 
+        /// <summary>
+        /// Converts a <see cref="ushort"/> value to network order binary format.
+        /// </summary>
+        /// <param name="guid">The value to convert.</param>
+        /// <returns>The converted value.</returns>
         public static byte[] GetBytes(Guid guid)
         {
             return AdjustGuidEndian(guid.ToByteArray());
         }
 
+        /// <summary>
+        /// Converts network order binary data to a <see cref="ushort"/> value.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <returns>The converted value.</returns>
         public static ushort ToUInt16(byte[] bytes)
         {
             return BitConverter.ToUInt16(AdjustEndian(bytes), 0);
         }
 
+        /// <summary>
+        /// Converts network order binary data to a <see cref="short"/> value.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <returns>The converted value.</returns>
         public static short ToInt16(byte[] bytes)
         {
             return BitConverter.ToInt16(AdjustEndian(bytes), 0);
         }
 
+        /// <summary>
+        /// Converts network order binary data to a <see cref="uint"/> value.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <returns>The converted value.</returns>
         public static uint ToUInt32(byte[] bytes)
         {
             return BitConverter.ToUInt32(AdjustEndian(bytes), 0);
         }
 
+        /// <summary>
+        /// Converts network order binary data to an <see cref="int"/> value.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <returns>The converted value.</returns>
         public static int ToInt32(byte[] bytes)
         {
             return BitConverter.ToInt32(AdjustEndian(bytes), 0);
         }
 
+        /// <summary>
+        /// Converts network order binary data to a <see cref="ulong"/> value.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <returns>The converted value.</returns>
         public static ulong ToUInt64(byte[] bytes)
         {
             return BitConverter.ToUInt64(AdjustEndian(bytes), 0);
         }
 
+        /// <summary>
+        /// Converts network order binary data to a <see cref="long"/> value.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <returns>The converted value.</returns>
         public static long ToInt64(byte[] bytes)
         {
             return BitConverter.ToInt64(AdjustEndian(bytes), 0);
         }
 
+        /// <summary>
+        /// Converts network order binary data to a <see cref="string"/> value based on the specified encoding.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <param name="encoding">The encoding to use for conversion.</param>
+        /// <returns>The converted value.</returns>
         public static string ToString(byte[] bytes, Encoding encoding = null)
         {
             if (encoding == null)
@@ -125,11 +201,21 @@ namespace QIndependentStudios.Obex
             return encoding.GetString(bytes);
         }
 
+        /// <summary>
+        /// Converts network order binary data to a <see cref="string"/> value based on Unicode encoding.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <returns>The converted value.</returns>
         public static string ToUnicodeString(byte[] bytes)
         {
             return Encoding.BigEndianUnicode.GetString(bytes);
         }
 
+        /// <summary>
+        /// Converts network order binary data to a <see cref="Guid"/> value.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <returns>The converted value.</returns>
         public static Guid ToGuid(byte[] bytes)
         {
             return new Guid(AdjustGuidEndian(bytes));

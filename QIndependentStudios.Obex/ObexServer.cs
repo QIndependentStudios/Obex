@@ -4,15 +4,26 @@ using System.Collections.Generic;
 
 namespace QIndependentStudios.Obex
 {
+    /// <summary>
+    /// Provides a class for listening to Obex requests and sending Obex responses.
+    /// </summary>
     public class ObexServer
     {
         private readonly IObexServerConnection _connection;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObexServer"/> class.
+        /// </summary>
+        /// <param name="connection">The connection the server will communicate over.</param>
         public ObexServer(IObexServerConnection connection)
         {
             _connection = connection;
         }
 
+        /// <summary>
+        /// Starts the server.
+        /// </summary>
+        /// <param name="requestHandler"></param>
         public async void Start(Func<ObexRequestBase, ObexResponseBase> requestHandler)
         {
             await _connection.WaitForClientAsync();
