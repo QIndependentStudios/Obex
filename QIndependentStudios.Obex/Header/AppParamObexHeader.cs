@@ -42,8 +42,8 @@ namespace QIndependentStudios.Obex.Header
         /// <summary>
         /// Creates a new instance of the <see cref="AppParamObexHeader"/> class with Obex application parameters and header length.
         /// </summary>
+        /// <param name="headerLength">The header length. Provide this value when deserializing from binary data.</param>
         /// <param name="parameters">The Obex application parameters for the header.</param>
-        /// <param name="headerLength">The header length. provide this value when deserializing from binary data.</param>
         /// <returns>The created header.</returns>
         public static AppParamObexHeader Create(ushort? headerLength, params ObexAppParameter[] parameters)
             => new AppParamObexHeader(parameters, headerLength);
@@ -52,8 +52,8 @@ namespace QIndependentStudios.Obex.Header
         /// <summary>
         /// Creates a new instance of the <see cref="AppParamObexHeader"/> class with Obex application parameters and header length.
         /// </summary>
+        /// <param name="headerLength">The header length. Provide this value when deserializing from binary data.</param>
         /// <param name="parameters">The Obex application parameters for the header.</param>
-        /// <param name="headerLength">The header length. provide this value when deserializing from binary data.</param>
         /// <returns>The created header.</returns>
         public static AppParamObexHeader Create(ushort? headerLength, IEnumerable<ObexAppParameter> parameters)
             => new AppParamObexHeader(parameters, headerLength);

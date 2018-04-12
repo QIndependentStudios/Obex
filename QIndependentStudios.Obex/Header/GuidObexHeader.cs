@@ -31,8 +31,8 @@ namespace QIndependentStudios.Obex.Header
         /// Creates a new instance of the <see cref="GuidObexHeader"/> class with a Guid and header length.
         /// </summary>
         /// <param name="id">The id of the header.</param>
+        /// <param name="headerLength">The header length. Provide this value when deserializing from binary data.</param>
         /// <param name="value">The value of the header.</param>
-        /// <param name="headerLength">The header length. provide this value when deserializing from binary data.</param>
         /// <returns>The created header.</returns>
         public static GuidObexHeader Create(ObexHeaderId id, ushort headerLength, Guid value)
         {
