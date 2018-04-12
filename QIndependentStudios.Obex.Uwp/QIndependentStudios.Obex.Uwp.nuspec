@@ -25,5 +25,6 @@
   <files>
     <file src="bin\Release\QIndependentStudios.Obex.Uwp.dll" target="lib\uap10.0" />
     <file src="bin\Release\QIndependentStudios.Obex.Uwp.pdb" target="lib\uap10.0" />
+    <file src="bin\Release\QIndependentStudios.Obex.Uwp.xml" target="lib\uap10.0" />
   </files>
 </package>
