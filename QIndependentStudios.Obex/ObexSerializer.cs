@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace QIndependentStudios.Obex
 {
+    /// <summary>
+    /// Serializes and deserializes Obex request and response objects to and from binary format.
+    /// </summary>
     public class ObexSerializer
     {
         private static Dictionary<ObexOpCode, IObexRequestConverter> _requestConverters = new Dictionary<ObexOpCode, IObexRequestConverter>
@@ -12,12 +15,22 @@ namespace QIndependentStudios.Obex
             { ObexOpCode.SetPath, ObexSetPathRequestConverter.Instance }
         };
 
+        /// <summary>
+        /// Serializes the specified request into binary data.
+        /// </summary>
+        /// <param name="request">The request to serialize.</param>
+        /// <returns>Binary data that represents the serialized request.</returns>
         public static byte[] SerializeRequest(ObexRequestBase request)
         {
             var converter = GetRequestConverter(request.OpCode);
             return converter.ToBytes(request);
         }
 
+        /// <summary>
+        /// Deserializes the specified bytes.
+        /// </summary>
+        /// <param name="bytes">The bytes to deserialize.</param>
+        /// <returns>A deserialized Obex request object.</returns>
         public static ObexRequestBase DeserializeRequest(byte[] bytes)
         {
             var opCode = (ObexOpCode)bytes[0];
@@ -26,6 +39,11 @@ namespace QIndependentStudios.Obex
             return converter.FromBytes(bytes);
         }
 
+        /// <summary>
+        /// Serializes the specified response into binary data.
+        /// </summary>
+        /// <param name="response">The response to serialize.</param>
+        /// <returns>Binary data that represents the serialized response.</returns>
         public static byte[] SerializeResponse(ObexResponseBase response)
         {
             var converter = response is ObexConnectResponse
@@ -35,6 +53,12 @@ namespace QIndependentStudios.Obex
             return converter.ToBytes(response);
         }
 
+        /// <summary>
+        /// Deserializes the specified bytes.
+        /// </summary>
+        /// <param name="bytes">The bytes to deserialize.</param>
+        /// <param name="isConnectResponse">Whether the data should be deserialized as an Obex connect response.</param>
+        /// <returns>A deserialized Obex response object.</returns>
         public static ObexResponseBase DeserializeResponse(byte[] bytes, bool isConnectResponse)
         {
             var converter = isConnectResponse

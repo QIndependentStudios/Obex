@@ -1,11 +1,11 @@
-﻿using QIndependentStudios.Obex.Header;
+﻿using QIndependentStudios.Obex.Converter.Header;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QIndependentStudios.Obex.Converter.Header
+namespace QIndependentStudios.Obex.Header
 {
     /// <summary>
-    /// Serializes and deserializes <see cref="ObexHeader"/> objects in binary format.
+    /// Serializes and deserializes <see cref="ObexHeader"/> objects to and from binary format.
     /// </summary>
     public class ObexHeaderSerializer
     {

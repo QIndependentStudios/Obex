@@ -5,12 +5,22 @@ using System.Linq;
 
 namespace QIndependentStudios.Obex
 {
+    /// <summary>
+    /// Represents an Obex request used specifically when making a connection.
+    /// </summary>
     public class ObexConnectRequest : ObexRequestBase
     {
+        /// <summary>
+        /// The minimum Max Packet Size.
+        /// </summary>
         public const ushort MaxPacketSizeLowerBound = 255;
+
+        /// <summary>
+        /// The maximum Max Packet Size.
+        /// </summary>
         public const ushort MaxPacketSizeUpperBound = 65534;
 
-        protected ObexConnectRequest(ushort? requestLength,
+        private ObexConnectRequest(ushort? requestLength,
             ushort maxPacketSize,
             IEnumerable<ObexHeader> headers)
             : this(requestLength, 0x10, 0x00, maxPacketSize, headers)
@@ -19,9 +29,9 @@ namespace QIndependentStudios.Obex
             // Flags are currently not used, using 0x00 as default.
         }
 
-        protected ObexConnectRequest(ushort? requestLength,
+        private ObexConnectRequest(ushort? requestLength,
             byte obexVersion,
-            byte flag,
+            byte flags,
             ushort maxPacketSize,
             IEnumerable<ObexHeader> headers)
             : base(ObexOpCode.Connect, requestLength, headers)
@@ -32,19 +42,43 @@ namespace QIndependentStudios.Obex
                 throw new ArgumentException($"MaxPacketSize cannot be greater than {MaxPacketSizeUpperBound}");
 
             ObexVersion = obexVersion;
-            Flags = flag;
+            Flags = flags;
             MaxPacketSize = maxPacketSize;
         }
 
+        /// <summary>
+        /// Gets the Obex protocol version.
+        /// </summary>
         public byte ObexVersion { get; }
+
+        /// <summary>
+        /// Gets the connect request flags.
+        /// </summary>
         public byte Flags { get; }
+
+        /// <summary>
+        /// Gets the maximum packet size the connecting client can support.
+        /// </summary>
         public ushort MaxPacketSize { get; }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ObexConnectRequest"/>.
+        /// </summary>
+        /// <param name="maxPacketSize">The maximum packet size that the connecting client can support.</param>
+        /// <param name="headers">A collection of Obex headers.</param>
+        /// <returns>The created request.</returns>
         public static ObexConnectRequest Create(ushort maxPacketSize, params ObexHeader[] headers)
         {
             return new ObexConnectRequest(null, maxPacketSize, headers);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ObexConnectRequest"/>.
+        /// </summary>
+        /// <param name="requestLength">The request length. Provide this value when deserializing from binary data.</param>
+        /// <param name="maxPacketSize">The maximum packet size that the connecting client can support.</param>
+        /// <param name="headers">A collection of Obex headers.</param>
+        /// <returns>The created request.</returns>
         public static ObexConnectRequest Create(ushort requestLength,
             ushort maxPacketSize,
             params ObexHeader[] headers)
@@ -52,28 +86,58 @@ namespace QIndependentStudios.Obex
             return Create(requestLength, maxPacketSize, headers.ToList());
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ObexConnectRequest"/> with explicit version number and flags.
+        /// </summary>
+        /// <param name="obexVersion">The Obex protocol version. Currently, the only value is 0x10.</param>
+        /// <param name="flags">The connect request flags. Currently not used.</param>
+        /// <param name="maxPacketSize">The maximum packet size that the connecting client can support.</param>
+        /// <param name="headers">A collection of Obex headers.</param>
+        /// <returns>The created request.</returns>
         public static ObexConnectRequest Create(byte obexVersion,
-            byte flag,
+            byte flags,
             ushort maxPacketSize,
             params ObexHeader[] headers)
         {
-            return new ObexConnectRequest(null, obexVersion, flag, maxPacketSize, headers);
+            return new ObexConnectRequest(null, obexVersion, flags, maxPacketSize, headers);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ObexConnectRequest"/> with explicit version number and flags.
+        /// </summary>
+        /// <param name="requestLength">The request length. Provide this value when deserializing from binary data.</param>
+        /// <param name="obexVersion">The Obex protocol version. Currently, the only value is 0x10.</param>
+        /// <param name="flags">The connect request flags. Currently not used.</param>
+        /// <param name="maxPacketSize">The maximum packet size that the connecting client can support.</param>
+        /// <param name="headers">A collection of Obex headers.</param>
+        /// <returns>The created request.</returns>
         public static ObexConnectRequest Create(ushort requestLength,
             byte obexVersion,
-            byte flag,
+            byte flags,
             ushort maxPacketSize,
             params ObexHeader[] headers)
         {
-            return new ObexConnectRequest(requestLength, obexVersion, flag, maxPacketSize, headers);
+            return new ObexConnectRequest(requestLength, obexVersion, flags, maxPacketSize, headers);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ObexConnectRequest"/>.
+        /// </summary>
+        /// <param name="maxPacketSize">The maximum packet size that the connecting client can support.</param>
+        /// <param name="headers">A collection of Obex headers.</param>
+        /// <returns>The created request.</returns>
         public static ObexConnectRequest Create(ushort maxPacketSize, IEnumerable<ObexHeader> headers)
         {
             return new ObexConnectRequest(null, maxPacketSize, headers);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ObexConnectRequest"/>.
+        /// </summary>
+        /// <param name="requestLength">The request length. Provide this value when deserializing from binary data.</param>
+        /// <param name="maxPacketSize">The maximum packet size that the connecting client can support.</param>
+        /// <param name="headers">A collection of Obex headers.</param>
+        /// <returns>The created request.</returns>
         public static ObexConnectRequest Create(ushort requestLength,
             ushort maxPacketSize,
             IEnumerable<ObexHeader> headers)
@@ -81,21 +145,38 @@ namespace QIndependentStudios.Obex
             return new ObexConnectRequest(requestLength, 0x10, 0x00, maxPacketSize, headers);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ObexConnectRequest"/> with explicit version number and flags.
+        /// </summary>
+        /// <param name="obexVersion">The Obex protocol version. Currently, the only value is 0x10.</param>
+        /// <param name="flags">The connect request flags. Currently not used.</param>
+        /// <param name="maxPacketSize">The maximum packet size that the connecting client can support.</param>
+        /// <param name="headers">A collection of Obex headers.</param>
+        /// <returns>The created request.</returns>
         public static ObexConnectRequest Create(byte obexVersion,
-            byte flag,
+            byte flags,
             ushort maxPacketSize,
             IEnumerable<ObexHeader> headers)
         {
-            return new ObexConnectRequest(null, obexVersion, flag, maxPacketSize, headers);
+            return new ObexConnectRequest(null, obexVersion, flags, maxPacketSize, headers);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ObexConnectRequest"/> with explicit version number and flags.
+        /// </summary>
+        /// <param name="requestLength">The request length. Provide this value when deserializing from binary data.</param>
+        /// <param name="obexVersion">The Obex protocol version. Currently, the only value is 0x10.</param>
+        /// <param name="flags">The connect request flags. Currently not used.</param>
+        /// <param name="maxPacketSize">The maximum packet size that the connecting client can support.</param>
+        /// <param name="headers">A collection of Obex headers.</param>
+        /// <returns>The created request.</returns>
         public static ObexConnectRequest Create(ushort requestLength,
             byte obexVersion,
-            byte flag,
+            byte flags,
             ushort maxPacketSize,
             IEnumerable<ObexHeader> headers)
         {
-            return new ObexConnectRequest(requestLength, obexVersion, flag, maxPacketSize, headers);
+            return new ObexConnectRequest(requestLength, obexVersion, flags, maxPacketSize, headers);
         }
 
         /// <inheritdoc/>
