@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("QIndependentStudios.Obex.Uwp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("UWP implementations of Obex related classes.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("QIndependentStudios")]
 [assembly: AssemblyProduct("QIndependentStudios.Obex.Uwp")]
