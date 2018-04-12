@@ -30,7 +30,7 @@ namespace QIndependentStudios.Obex.Header
         public static ObexAppParameter Create(byte tag, params byte[] value)
             => new ObexAppParameter { Tag = tag, Value = value };
 
-        /// <inheritdoc/>
+#pragma warning disable CS1591
         public override bool Equals(object obj)
         {
             return obj is ObexAppParameter parameter
@@ -38,7 +38,6 @@ namespace QIndependentStudios.Obex.Header
                 && new SequenceEqualityComparer<byte>().Equals(Value, parameter.Value);
         }
 
-        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = 221537429;
@@ -47,11 +46,11 @@ namespace QIndependentStudios.Obex.Header
             return hashCode;
         }
 
-        /// <inheritdoc/>
         public override string ToString()
         {
             var tag = BitConverter.ToString(new byte[] { Tag });
             return $"{tag} {BitConverter.ToString(Value)}";
         }
+#pragma warning restore CS1591
     }
 }

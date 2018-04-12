@@ -150,7 +150,7 @@ namespace QIndependentStudios.Obex
             return new ObexSetPathRequest(requestLength, flags, constant, headers);
         }
 
-        /// <inheritdoc/>
+#pragma warning disable CS1591
         public override bool Equals(object obj)
         {
             return obj is ObexSetPathRequest request
@@ -159,7 +159,6 @@ namespace QIndependentStudios.Obex
                 && Constant == request.Constant;
         }
 
-        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = -109303055;
@@ -168,5 +167,6 @@ namespace QIndependentStudios.Obex
             hashCode = hashCode * -1521134295 + Constant.GetHashCode();
             return hashCode;
         }
+#pragma warning restore CS1591
     }
 }

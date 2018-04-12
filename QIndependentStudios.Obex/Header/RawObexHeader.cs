@@ -39,15 +39,14 @@ namespace QIndependentStudios.Obex.Header
             return Create(id, value?.ToArray() ?? new byte[0]);
         }
 
-        /// <inheritdoc/>
+#pragma warning disable CS1591
         public override bool Equals(object obj)
         {
             return obj is RawObexHeader header
                 && base.Equals(obj)
                 && new SequenceEqualityComparer<byte>().Equals(Value, header.Value);
         }
-
-        /// <inheritdoc/>
+                
         public override int GetHashCode()
         {
             var hashCode = -783812246;
@@ -55,11 +54,11 @@ namespace QIndependentStudios.Obex.Header
             hashCode = hashCode * -1521134295 + new SequenceEqualityComparer<byte>().GetHashCode(Value);
             return hashCode;
         }
-
-        /// <inheritdoc/>
+                
         public override string ToString()
         {
             return $"{Id} - {Value}";
         }
+#pragma warning restore CS1591
     }
 }

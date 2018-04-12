@@ -1,5 +1,4 @@
-﻿using QIndependentStudios.Obex.Converter.Header;
-using QIndependentStudios.Obex.Header;
+﻿using QIndependentStudios.Obex.Header;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +26,11 @@ namespace QIndependentStudios.Obex.Converter.Request
         /// </summary>
         protected virtual int FieldBytesLength => 3;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Converts an Obex request to binary data.
+        /// </summary>
+        /// <param name="request">The request to convert.</param>
+        /// <returns>Binary data representing the Obex request.</returns>
         public byte[] ToBytes(ObexRequestBase request)
         {
             var bytes = GetFieldBytes(request);
@@ -44,7 +47,11 @@ namespace QIndependentStudios.Obex.Converter.Request
             return bytes.ToArray();
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Converts binary data to an Obex request object.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <returns>The deserialized Obex request.</returns>
         public ObexRequestBase FromBytes(byte[] bytes)
         {
             return FromBytesCore(bytes);

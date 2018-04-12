@@ -58,7 +58,7 @@ namespace QIndependentStudios.Obex.Header
         public static AppParamObexHeader Create(ushort? headerLength, IEnumerable<ObexAppParameter> parameters)
             => new AppParamObexHeader(parameters, headerLength);
 
-        /// <inheritdoc/>
+#pragma warning disable CS1591
         public override bool Equals(object obj)
         {
             return obj is AppParamObexHeader header
@@ -66,7 +66,6 @@ namespace QIndependentStudios.Obex.Header
                 && new SequenceEqualityComparer<ObexAppParameter>().Equals(_parameters, header._parameters);
         }
 
-        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = -1494980905;
@@ -75,10 +74,10 @@ namespace QIndependentStudios.Obex.Header
             return hashCode;
         }
 
-        /// <inheritdoc/>
         public override string ToString()
         {
             return $"{Id} - {_parameters.Count()} parameter(s)";
         }
+#pragma warning restore CS1591
     }
 }

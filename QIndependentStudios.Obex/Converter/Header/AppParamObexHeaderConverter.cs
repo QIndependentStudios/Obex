@@ -21,7 +21,11 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// </summary>
         public new static AppParamObexHeaderConverter Instance { get; } = new AppParamObexHeaderConverter();
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Converts binary data to an Obex header object.
+        /// </summary>
+        /// <param name="bytes">The binary data to deserialize.</param>
+        /// <returns>The deserialized Obex header.</returns>
         public override ObexHeader FromBytes(byte[] bytes)
         {
             var parametersData = ExtractValueBytes(bytes);
@@ -30,7 +34,11 @@ namespace QIndependentStudios.Obex.Converter.Header
             return AppParamObexHeader.Create(GetHeaderSize(bytes), parameters);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Converts the value of the Obex header to binary data.
+        /// </summary>
+        /// <param name="header">The header whose value will be converted.</param>
+        /// <returns>The binary data of the header's value.</returns>
         protected override byte[] ValueToBytes(ObexHeader header)
         {
             if (header is AppParamObexHeader appParamHeader)

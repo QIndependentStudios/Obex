@@ -19,10 +19,16 @@ namespace QIndependentStudios.Obex.Converter.Request
         /// </summary>
         public new static ObexConnectRequestConverter Instance { get; } = new ObexConnectRequestConverter();
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// The number of bytes that represents the Obex request's field values.
+        /// </summary>
         protected override int FieldBytesLength => 7;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Constructs the Obex request's fields in binary format.
+        /// </summary>
+        /// <param name="request">The Obex request to get field data.</param>
+        /// <returns>Binary data representing the fields in the request.</returns>
         protected override List<byte> GetFieldBytes(ObexRequestBase request)
         {
             if (request.OpCode != ObexOpCode.Connect || !(request is ObexConnectRequest connectRequest))
@@ -42,7 +48,11 @@ namespace QIndependentStudios.Obex.Converter.Request
             return bytes;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Core conversion logic to deserialize binary data to an appropriate Obex request object.
+        /// </summary>
+        /// <param name="bytes">The binary data.</param>
+        /// <returns>An Obex request object.</returns>
         protected override ObexRequestBase FromBytesCore(byte[] bytes)
         {
             var opCode = (ObexOpCode)bytes[0];

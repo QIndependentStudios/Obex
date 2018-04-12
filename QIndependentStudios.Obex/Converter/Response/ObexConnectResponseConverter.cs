@@ -18,10 +18,16 @@ namespace QIndependentStudios.Obex.Converter.Response
         /// </summary>
         public new static ObexConnectResponseConverter Instance { get; } = new ObexConnectResponseConverter();
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// The number of bytes that represents the Obex response's field values.
+        /// </summary>
         protected override int FieldBytesLength => 7;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Constructs the Obex response's fields in binary format.
+        /// </summary>
+        /// <param name="response">The Obex response to get field data.</param>
+        /// <returns>Binary data representing the fields in the response.</returns>
         protected override List<byte> GetFieldBytes(ObexResponseBase response)
         {
             var connectResponse = (ObexConnectResponse)response;
@@ -39,7 +45,11 @@ namespace QIndependentStudios.Obex.Converter.Response
             return bytes;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Core conversion logic to deserialize binary data to an appropriate Obex response object.
+        /// </summary>
+        /// <param name="bytes">The binary data.</param>
+        /// <returns>An Obex response object.</returns>
         protected override ObexResponseBase FromBytesCore(byte[] bytes)
         {
             var responseCode = (ObexResponseCode)bytes[0];

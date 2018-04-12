@@ -10,7 +10,10 @@ namespace QIndependentStudios.Obex.Header
         private UInt32ObexHeader()
         { }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// If available, gets the total length of the binary data of the the header.
+        /// Usually set if the header was created by deserialization or if the header has a fixed length.
+        /// </summary>
         public override ushort? ActualLength => 5;
 
         /// <summary>
@@ -29,7 +32,7 @@ namespace QIndependentStudios.Obex.Header
             return new UInt32ObexHeader { Id = id, Value = value };
         }
 
-        /// <inheritdoc/>
+#pragma warning disable CS1591
         public override bool Equals(object obj)
         {
             return obj is UInt32ObexHeader header
@@ -38,7 +41,6 @@ namespace QIndependentStudios.Obex.Header
                 && Value == header.Value;
         }
 
-        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = -2059405511;
@@ -48,10 +50,10 @@ namespace QIndependentStudios.Obex.Header
             return hashCode;
         }
 
-        /// <inheritdoc/>
         public override string ToString()
         {
             return $"{Id} - {Value}";
         }
+#pragma warning restore CS1591
     }
 }

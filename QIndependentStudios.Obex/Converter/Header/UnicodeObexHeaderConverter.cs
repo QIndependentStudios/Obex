@@ -20,7 +20,11 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// </summary>
         public new static UnicodeTextObexHeaderConverter Instance { get; } = new UnicodeTextObexHeaderConverter();
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Converts binary data to an Obex header object.
+        /// </summary>
+        /// <param name="bytes">The binary data to deserialize.</param>
+        /// <returns>The deserialized Obex header.</returns>
         public override ObexHeader FromBytes(byte[] bytes)
         {
             return UnicodeTextObexHeader.Create((ObexHeaderId)bytes[0],
@@ -28,7 +32,11 @@ namespace QIndependentStudios.Obex.Converter.Header
                 ObexBitConverter.ToUnicodeString(ExtractValueBytes(bytes)).TrimEnd(char.MinValue));
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Converts the value of the Obex header to binary data.
+        /// </summary>
+        /// <param name="header">The header whose value will be converted.</param>
+        /// <returns>The binary data of the header's value.</returns>
         protected override byte[] ValueToBytes(ObexHeader header)
         {
             if (!(header is UnicodeTextObexHeader textheader))

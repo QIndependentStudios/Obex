@@ -179,7 +179,7 @@ namespace QIndependentStudios.Obex
             return new ObexConnectRequest(requestLength, obexVersion, flags, maxPacketSize, headers);
         }
 
-        /// <inheritdoc/>
+#pragma warning disable CS1591
         public override bool Equals(object obj)
         {
             return obj is ObexConnectRequest request
@@ -188,8 +188,7 @@ namespace QIndependentStudios.Obex
                 && Flags == request.Flags
                 && MaxPacketSize == request.MaxPacketSize;
         }
-
-        /// <inheritdoc/>
+                
         public override int GetHashCode()
         {
             var hashCode = -1647789284;
@@ -199,5 +198,6 @@ namespace QIndependentStudios.Obex
             hashCode = hashCode * -1521134295 + MaxPacketSize.GetHashCode();
             return hashCode;
         }
+#pragma warning restore CS1591
     }
 }

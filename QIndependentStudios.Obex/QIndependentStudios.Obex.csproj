@@ -5,6 +5,7 @@
     <PackageProjectUrl>https://github.com/QIndependentStudios/QIndependentStudios.Obex</PackageProjectUrl>
     <Description>A .NET Standard Obex protocol class library.</Description>
     <PackageTags>Obex IrObex Object Exchange Client Bluetooth NET Standard</PackageTags>
+    <Version>1.0.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

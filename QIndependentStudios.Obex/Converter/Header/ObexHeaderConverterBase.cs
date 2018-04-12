@@ -21,10 +21,18 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// </summary>
         public virtual int? HeaderLengthOverride => null;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Converts binary data to an Obex header object.
+        /// </summary>
+        /// <param name="bytes">The binary data to deserialize.</param>
+        /// <returns>The deserialized Obex header.</returns>
         public abstract ObexHeader FromBytes(byte[] bytes);
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Converts an Obex header to binary data.
+        /// </summary>
+        /// <param name="header">The header to convert.</param>
+        /// <returns>Binary data representing the Obex header.</returns>
         public byte[] ToBytes(ObexHeader header)
         {
             var bytes = new List<byte> { (byte)header.Id };
