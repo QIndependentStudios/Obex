@@ -25,6 +25,9 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// <returns>The deserialized Obex header.</returns>
         public override ObexHeader FromBytes(byte[] bytes)
         {
+            if (bytes.Length != 19)
+                return ByteSequenceObexHeaderConverter.Instance.FromBytes(bytes);
+
             return GuidObexHeader.Create((ObexHeaderId)bytes[0],
                 GetHeaderSize(bytes),
                 ObexBitConverter.ToGuid(ExtractValueBytes(bytes)));

@@ -30,6 +30,17 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
         }
 
         [TestMethod]
+        public void FromBytes_GivenHeaderWithNonGuidByteValue_ReturnsByteSequenceHeaderObject()
+        {
+            byte[] bytes = TestHeaderData.Concat(new byte[] { 0x30 }).ToArray();
+            var expected = ByteSequenceObexHeaderConverter.Instance.FromBytes(bytes);
+
+            var actual = _converter.FromBytes(bytes);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void ToBytes_GivenHeaderObject_ReturnsHeaderByteData()
         {
             var actual = _converter.ToBytes(TestHeader);
