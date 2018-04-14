@@ -42,11 +42,12 @@ namespace QIndependentStudios.Obex.Header
             new Dictionary<Type, IObexHeaderConverter>
             {
                 { typeof(ByteObexHeader), ByteObexHeaderConverter.Instance },
-                { typeof(GuidObexHeader), GuidObexHeaderConverter.Instance },
                 { typeof(ByteSequenceObexHeader), ByteSequenceObexHeaderConverter.Instance },
+                { typeof(GuidObexHeader), GuidObexHeaderConverter.Instance },
                 { typeof(TlvCollectionObexHeader), TlvCollectionObexHeaderConverter.Instance },
                 { typeof(UInt32ObexHeader), UInt32ObexHeaderConverter.Instance },
                 { typeof(UnicodeTextObexHeader), UnicodeTextObexHeaderConverter.Instance },
+                { typeof(DateTimeObexHeader), DateTimeObexHeaderConverter.Instance }
             };
 
         /// <summary>
