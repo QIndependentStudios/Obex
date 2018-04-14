@@ -16,12 +16,6 @@ namespace QIndependentStudios.Obex.Converter.Header
         protected const int HeaderLengthBytesSize = 2;
 
         /// <summary>
-        /// Gets the header's size that should be used instead of calculating it.
-        /// Override this a head has a fixed length and does not have header length bytes.
-        /// </summary>
-        public virtual int? HeaderLengthOverride => null;
-
-        /// <summary>
         /// Converts binary data to an Obex header object.
         /// </summary>
         /// <param name="bytes">The binary data to deserialize.</param>
@@ -39,7 +33,7 @@ namespace QIndependentStudios.Obex.Converter.Header
 
             bytes.AddRange(ValueToBytes(header));
 
-            if (HeaderLengthOverride == null)
+            if (IsValuePrefixedWithLength(header.Id))
                 SetHeaderSize(bytes);
 
             return bytes.ToArray();
@@ -53,18 +47,26 @@ namespace QIndependentStudios.Obex.Converter.Header
         protected byte[] ExtractValueBytes(byte[] bytes)
         {
             var offset = 1;
-            var length = 0;
+            int valueLength;
 
-            if (HeaderLengthOverride != null)
-                length = HeaderLengthOverride.Value - offset;
-            else
+            switch (ObexHeaderUtil.GetHeaderEncoding((ObexHeaderId)bytes[0]))
             {
-                length = ObexBitConverter.ToUInt16(new ArraySegment<byte>(bytes, offset, HeaderLengthBytesSize).ToArray());
-                offset += HeaderLengthBytesSize;
-                length -= offset;
+                case ObexHeaderEncoding.SingleByte:
+                    valueLength = 1;
+                    break;
+                case ObexHeaderEncoding.FourBytes:
+                    valueLength = 4;
+                    break;
+                default:
+                    valueLength = ObexBitConverter.ToUInt16(new ArraySegment<byte>(bytes,
+                        offset,
+                        HeaderLengthBytesSize).ToArray());
+                    offset += HeaderLengthBytesSize;
+                    valueLength -= offset;
+                    break;
             }
 
-            return new ArraySegment<byte>(bytes, offset, length).ToArray();
+            return new ArraySegment<byte>(bytes, offset, valueLength).ToArray();
         }
 
         /// <summary>
@@ -93,7 +95,14 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// <returns></returns>
         protected ushort GetHeaderSize(byte[] bytes)
         {
-            return ObexBitConverter.ToUInt16(new byte[] { bytes[1], bytes[2] });
+            return ObexBitConverter.ToUInt16(new[] { bytes[1], bytes[2] });
+        }
+
+        private static bool IsValuePrefixedWithLength(ObexHeaderId id)
+        {
+            var encoding = ObexHeaderUtil.GetHeaderEncoding(id);
+            return encoding == ObexHeaderEncoding.NullTermUnicodeWithLength
+                || encoding == ObexHeaderEncoding.ByteSequenceWithLength;
         }
     }
 }

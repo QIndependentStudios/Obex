@@ -9,7 +9,7 @@ namespace QIndependentStudios.Obex
     /// </summary>
     public class ObexSerializer
     {
-        private static Dictionary<ObexOpCode, IObexRequestConverter> _requestConverters = new Dictionary<ObexOpCode, IObexRequestConverter>
+        private static readonly Dictionary<ObexOpCode, IObexRequestConverter> RequestConverters = new Dictionary<ObexOpCode, IObexRequestConverter>
         {
             { ObexOpCode.Connect, ObexConnectRequestConverter.Instance },
             { ObexOpCode.SetPath, ObexSetPathRequestConverter.Instance }
@@ -70,8 +70,8 @@ namespace QIndependentStudios.Obex
 
         private static IObexRequestConverter GetRequestConverter(ObexOpCode opCode)
         {
-            if (_requestConverters.ContainsKey(opCode))
-                return _requestConverters[opCode];
+            if (RequestConverters.ContainsKey(opCode))
+                return RequestConverters[opCode];
 
             return ObexRequestConverter.Instance;
         }

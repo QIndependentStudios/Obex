@@ -10,14 +10,14 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
     [TestClass]
     public class ObexSetPathRequestConverterTests
     {
-        private static readonly byte[] _testSetPathRequestData = new byte[]
+        private static readonly byte[] TestSetPathRequestData =
         {
             0x85, 0x00, 0x1D, 0x02, 0x00, 0xCB, 0x00, 0x00,
             0x00, 0x01, 0x01, 0x00, 0x13, 0x00, 0x74, 0x00,
             0x65, 0x00, 0x6C, 0x00, 0x65, 0x00, 0x63, 0x00,
             0x6F, 0x00, 0x6D, 0x00, 0x00
         };
-        private static readonly ObexRequestBase _testSetPathRequest = ObexSetPathRequest.Create(29,
+        private static readonly ObexRequestBase TestSetPathRequest = ObexSetPathRequest.Create(29,
             ObexSetPathFlag.DownToNameOrRoot,
             UInt32ObexHeader.Create(ObexHeaderId.ConnectionId, 1),
             UnicodeTextObexHeader.Create(ObexHeaderId.Name, 19, "telecom"));
@@ -26,9 +26,9 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
         [TestMethod]
         public void FromBytes_GivenSetPathRequestData_ReturnsSetPatRequestObject()
         {
-            var actual = _converter.FromBytes(_testSetPathRequestData);
+            var actual = _converter.FromBytes(TestSetPathRequestData);
 
-            Assert.AreEqual(_testSetPathRequest, actual);
+            Assert.AreEqual(TestSetPathRequest, actual);
         }
 
         [TestMethod]
@@ -49,9 +49,9 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
         [TestMethod]
         public void ToBytes_GivenSetPatRequestObject_ReturnsSetPatRequestData()
         {
-            var actual = _converter.ToBytes(_testSetPathRequest);
+            var actual = _converter.ToBytes(TestSetPathRequest);
 
-            Assert.IsTrue(_testSetPathRequestData.SequenceEqual(actual));
+            Assert.IsTrue(TestSetPathRequestData.SequenceEqual(actual));
         }
 
         [TestMethod]

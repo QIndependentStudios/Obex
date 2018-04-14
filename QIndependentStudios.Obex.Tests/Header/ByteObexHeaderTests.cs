@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QIndependentStudios.Obex.Header;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace QIndependentStudios.Obex.Tests.Header
 {

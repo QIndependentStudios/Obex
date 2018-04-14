@@ -9,14 +9,14 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
     [TestClass]
     public class ObexConnectRequestConverterTests
     {
-        private static readonly byte[] _testConnectRequestData = new byte[]
+        private static readonly byte[] TestConnectRequestData =
         {
             0x80, 0x00, 0x1A, 0x10, 0x00, 0x14, 0x00, 0x46,
             0x00, 0x13, 0xBB, 0x58, 0x2B, 0x40, 0x42, 0x0C,
             0x11, 0xDB, 0xB0, 0xDE, 0x08, 0x00, 0x20, 0x0C,
             0x9A, 0x66
         };
-        private static readonly ObexRequestBase _testConnectRequest = ObexConnectRequest.Create(26,
+        private static readonly ObexRequestBase TestConnectRequest = ObexConnectRequest.Create(26,
             5120,
             GuidObexHeader.Create(ObexHeaderId.Target, 19, Guid.Parse("bb582b40-420c-11db-b0de-0800200c9a66")));
         private readonly ObexConnectRequestConverter _converter = ObexConnectRequestConverter.Instance;
@@ -24,9 +24,9 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
         [TestMethod]
         public void FromBytes_GivenConnectRequestData_ReturnsConnectRequestObject()
         {
-            var actual = _converter.FromBytes(_testConnectRequestData);
+            var actual = _converter.FromBytes(TestConnectRequestData);
 
-            Assert.AreEqual(_testConnectRequest, actual);
+            Assert.AreEqual(TestConnectRequest, actual);
         }
 
         [TestMethod]
@@ -47,9 +47,9 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
         [TestMethod]
         public void ToBytes_GivenConnectRequestObject_ReturnsConnectRequestData()
         {
-            var actual = _converter.ToBytes(_testConnectRequest);
+            var actual = _converter.ToBytes(TestConnectRequest);
 
-            Assert.IsTrue(_testConnectRequestData.SequenceEqual(actual));
+            Assert.IsTrue(TestConnectRequestData.SequenceEqual(actual));
         }
 
         [TestMethod]

@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the Obex response type.
     /// </summary>
-    public enum ObexResponseCode : byte
+    public enum ObexResponseCode
     {
         /// <summary>
         /// Reserved.

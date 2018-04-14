@@ -1,4 +1,5 @@
 ﻿using QIndependentStudios.Obex.Converter.Header;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,21 +10,49 @@ namespace QIndependentStudios.Obex.Header
     /// </summary>
     public class ObexHeaderSerializer
     {
-        private static readonly Dictionary<ObexHeaderId, IObexHeaderConverter> _converters = new Dictionary<ObexHeaderId, IObexHeaderConverter>
-        {
-            { ObexHeaderId.Length, UInt32ObexHeaderConverter.Instance },
-            { ObexHeaderId.ConnectionId, UInt32ObexHeaderConverter.Instance },
-            { ObexHeaderId.Target, GuidObexHeaderConverter.Instance },
-            { ObexHeaderId.Who, GuidObexHeaderConverter.Instance },
-            { ObexHeaderId.Type, TextObexHeaderConverter.Instance },
-            { ObexHeaderId.Body, TextObexHeaderConverter.Instance },
-            { ObexHeaderId.EndOfBody, TextObexHeaderConverter.Instance },
-            { ObexHeaderId.Name, UnicodeTextObexHeaderConverter.Instance },
-            { ObexHeaderId.Description, UnicodeTextObexHeaderConverter.Instance },
-            { ObexHeaderId.ApplicationParameter, AppParamObexHeaderConverter.Instance },
-            { ObexHeaderId.SingleResponseMode, ByteObexHeaderConverter.Instance },
-            { ObexHeaderId.SingleResponseModeParameter, ByteObexHeaderConverter.Instance }
-        };
+        private static readonly Dictionary<ObexHeaderId, IObexHeaderConverter> ConvertersById =
+            new Dictionary<ObexHeaderId, IObexHeaderConverter>
+            {
+                { ObexHeaderId.Count, UInt32ObexHeaderConverter.Instance },
+                { ObexHeaderId.Name, UnicodeTextObexHeaderConverter.Instance },
+                { ObexHeaderId.Type, TextObexHeaderConverter.Instance },
+                { ObexHeaderId.Length, UInt32ObexHeaderConverter.Instance },
+                //TODO: handle time header
+                { ObexHeaderId.Description, UnicodeTextObexHeaderConverter.Instance },
+                { ObexHeaderId.ConnectionId, UInt32ObexHeaderConverter.Instance },
+                { ObexHeaderId.ApplicationParameter, TlvCollectionObexHeaderConverter.Instance },
+                { ObexHeaderId.AuthenticationChallenge, TlvCollectionObexHeaderConverter.Instance },
+                { ObexHeaderId.AuthenticationResponse, TlvCollectionObexHeaderConverter.Instance },
+                { ObexHeaderId.SingleResponseMode, ByteObexHeaderConverter.Instance },
+                { ObexHeaderId.SingleResponseModeParameter, ByteObexHeaderConverter.Instance},
+
+                // Raw but has recommended format
+                { ObexHeaderId.Target, GuidObexHeaderConverter.Instance },
+                { ObexHeaderId.Body, TextObexHeaderConverter.Instance },
+                { ObexHeaderId.EndOfBody, TextObexHeaderConverter.Instance },
+                { ObexHeaderId.Who, GuidObexHeaderConverter.Instance }
+            };
+
+        private static readonly Dictionary<ObexHeaderEncoding, IObexHeaderConverter> ConvertersByEncoding =
+            new Dictionary<ObexHeaderEncoding, IObexHeaderConverter>
+            {
+                { ObexHeaderEncoding.NullTermUnicodeWithLength, UnicodeTextObexHeaderConverter.Instance },
+                { ObexHeaderEncoding.ByteSequenceWithLength, RawObexHeaderConverter.Instance },
+                { ObexHeaderEncoding.SingleByte, ByteObexHeaderConverter.Instance },
+                { ObexHeaderEncoding.FourBytes, UInt32ObexHeaderConverter.Instance }
+            };
+
+        private static readonly Dictionary<Type, IObexHeaderConverter> ConvertersByType =
+            new Dictionary<Type, IObexHeaderConverter>
+            {
+                { typeof(ByteObexHeader), ByteObexHeaderConverter.Instance },
+                { typeof(GuidObexHeader), GuidObexHeaderConverter.Instance },
+                { typeof(RawObexHeader), RawObexHeaderConverter.Instance },
+                { typeof(TextObexHeader), TextObexHeaderConverter.Instance },
+                { typeof(TlvCollectionObexHeader), TlvCollectionObexHeaderConverter.Instance },
+                { typeof(UInt32ObexHeader), UInt32ObexHeaderConverter.Instance },
+                { typeof(UnicodeTextObexHeader), UnicodeTextObexHeaderConverter.Instance },
+            };
 
         /// <summary>
         /// Serializes the specified header into binary data.
@@ -32,16 +61,13 @@ namespace QIndependentStudios.Obex.Header
         /// <returns>Binary data that represents the serialized header.</returns>
         public static byte[] Serialize(ObexHeader header)
         {
-            if (!(header is RawObexHeader) && !_converters.ContainsKey(header.Id))
-                throw new System.NotSupportedException($"No converters found for Obex Headers with id {header.Id}.");
+            if (!ConvertersByType.ContainsKey(header.GetType()))
+                throw new NotSupportedException($"No converter found for type {header.GetType().FullName}.");
 
-            var converter = header is RawObexHeader
-                ? RawObexHeaderConverter.Instance
-                : _converters[header.Id];
+            var converter = ConvertersByType[header.GetType()];
             return converter.ToBytes(header);
         }
-
-
+        
         /// <summary>
         /// Deserializes the specified bytes.
         /// </summary>
@@ -50,9 +76,9 @@ namespace QIndependentStudios.Obex.Header
         public static ObexHeader Deserialize(byte[] bytes)
         {
             var headerId = (ObexHeaderId)bytes[0];
-            var converter = _converters.ContainsKey(headerId)
-                ? _converters[headerId]
-                : RawObexHeaderConverter.Instance;
+            var converter = ConvertersById.ContainsKey(headerId)
+                ? ConvertersById[headerId]
+                : ConvertersByEncoding[ObexHeaderUtil.GetHeaderEncoding(headerId)];
             return converter.FromBytes(bytes);
         }
 
@@ -69,7 +95,7 @@ namespace QIndependentStudios.Obex.Header
             {
                 var header = Deserialize(bytes.Skip(currentPosition).ToArray());
                 headers.Add(header);
-                currentPosition += (int)header.ActualLength;
+                currentPosition += header.ActualLength ?? 0;
             }
 
             return headers;

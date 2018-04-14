@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the Obex request type.
     /// </summary>
-    public enum ObexOpCode : byte
+    public enum ObexOpCode
     {
         /// <summary>
         /// Connect request OpCode.

@@ -89,7 +89,7 @@ namespace QIndependentStudios.Obex.Converter.Response
         /// <returns>The defined length of the Obex response data.</returns>
         protected virtual ushort GetResponseLength(byte[] bytes)
         {
-            return ObexBitConverter.ToUInt16(new byte[] { bytes[1], bytes[2] });
+            return ObexBitConverter.ToUInt16(new[] { bytes[1], bytes[2] });
         }
 
         /// <summary>

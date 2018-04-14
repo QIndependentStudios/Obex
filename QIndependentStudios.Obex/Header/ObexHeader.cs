@@ -22,7 +22,7 @@ namespace QIndependentStudios.Obex.Header
         /// If available, gets the total length of the binary data of the the header.
         /// Usually set if the header was created by deserialization or if the header has a fixed length.
         /// </summary>
-        public virtual ushort? ActualLength { get; protected set; }
+        public ushort? ActualLength { get; protected set; }
 
 #pragma warning disable CS1591
         public override bool Equals(object obj)
@@ -31,7 +31,7 @@ namespace QIndependentStudios.Obex.Header
                 && Id == header.Id
                 && EqualityComparer<ushort?>.Default.Equals(ActualLength, header.ActualLength);
         }
-        
+
         public override int GetHashCode()
         {
             var hashCode = 831783735;

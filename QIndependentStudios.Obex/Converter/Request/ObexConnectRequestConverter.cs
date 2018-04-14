@@ -62,7 +62,7 @@ namespace QIndependentStudios.Obex.Converter.Request
             var requestLength = GetRequestLength(bytes);
             var obexVersion = bytes[3];
             var flags = bytes[4];
-            var maxPacketSize = ObexBitConverter.ToUInt16(new byte[] { bytes[5], bytes[6] });
+            var maxPacketSize = ObexBitConverter.ToUInt16(new[] { bytes[5], bytes[6] });
 
             return ObexConnectRequest.Create(requestLength,
                 obexVersion,

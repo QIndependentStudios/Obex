@@ -6,17 +6,17 @@ namespace QIndependentStudios.Obex.Tests.Header
     [TestClass]
     public class TextObexHeaderTests
     {
-        private const string _testValue = "x-bt/MAP-msg-listing";
+        private const string TestValue = "x-bt/MAP-msg-listing";
 
         [TestMethod]
         public void Create_Id_Value_HeaderCreatesSuccessfully()
         {
             var actual = TextObexHeader.Create(ObexHeaderId.Type,
-                _testValue);
+                TestValue);
 
             Assert.AreEqual(ObexHeaderId.Type, actual.Id);
             Assert.IsNull(actual.ActualLength);
-            Assert.AreEqual(_testValue, actual.Value);
+            Assert.AreEqual(TestValue, actual.Value);
         }
 
         [TestMethod]
@@ -24,11 +24,11 @@ namespace QIndependentStudios.Obex.Tests.Header
         {
             var actual = TextObexHeader.Create(ObexHeaderId.Type,
                 24,
-                _testValue);
+                TestValue);
 
             Assert.AreEqual(ObexHeaderId.Type, actual.Id);
             Assert.AreEqual((ushort)24, actual.ActualLength);
-            Assert.AreEqual(_testValue, actual.Value);
+            Assert.AreEqual(TestValue, actual.Value);
         }
     }
 }

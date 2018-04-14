@@ -40,7 +40,7 @@ namespace QIndependentStudios.Obex
                 var packetLengthBytes = await _connection.ReadAsync(2);
                 bytes.AddRange(packetLengthBytes);
 
-                int bytesRemaining = (ObexBitConverter.ToUInt16(packetLengthBytes) - bytes.Count);
+                var bytesRemaining = ObexBitConverter.ToUInt16(packetLengthBytes) - bytes.Count;
                 if (bytesRemaining > 0)
                     bytes.AddRange(await _connection.ReadAsync((uint)bytesRemaining));
 

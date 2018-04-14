@@ -66,11 +66,11 @@ namespace QIndependentStudios.Obex.Converter.Request
         {
             if (request.OpCode == ObexOpCode.Connect || request is ObexConnectRequest)
                 throw new ArgumentException($"Requests with OpCode {ObexOpCode.Connect} or of type {nameof(ObexConnectRequest)} " +
-                    $"is not supported. Use {nameof(ObexConnectRequestConverter)}.{nameof(ObexConnectRequestConverter.ToBytes)}().");
+                    $"is not supported. Use {nameof(ObexConnectRequestConverter)}.{nameof(ToBytes)}().");
 
             if (request.OpCode == ObexOpCode.SetPath || request is ObexSetPathRequest)
                 throw new ArgumentException($"Requests with OpCode {ObexOpCode.SetPath} or of type {nameof(ObexSetPathRequest)} " +
-                    $"is not supported. Use {nameof(ObexSetPathRequestConverter)}.{nameof(ObexSetPathRequestConverter.ToBytes)}().");
+                    $"is not supported. Use {nameof(ObexSetPathRequestConverter)}.{nameof(ToBytes)}().");
 
             return new List<byte> { (byte)request.OpCode, 0x00, 0x00 };
         }
@@ -85,12 +85,12 @@ namespace QIndependentStudios.Obex.Converter.Request
             var opCode = (ObexOpCode)bytes[0];
             if (opCode == ObexOpCode.Connect)
                 throw new ArgumentException($"OpCode in byte data appears to be {opCode}. Use " +
-                    $"{nameof(ObexConnectRequestConverter)}.{nameof(ObexConnectRequestConverter.FromBytes)}() " +
+                    $"{nameof(ObexConnectRequestConverter)}.{nameof(FromBytes)}() " +
                     "to convert from bytes.");
 
             if (opCode == ObexOpCode.SetPath)
                 throw new ArgumentException($"OpCode in byte data appears to be {opCode}. Use " +
-                    $"{nameof(ObexSetPathRequestConverter)}.{nameof(ObexSetPathRequestConverter.FromBytes)}() " +
+                    $"{nameof(ObexSetPathRequestConverter)}.{nameof(FromBytes)}() " +
                     $"to convert from bytes.");
 
             var requestLength = GetRequestLength(bytes);
@@ -107,7 +107,7 @@ namespace QIndependentStudios.Obex.Converter.Request
         /// <returns>The defined length of the Obex request data.</returns>
         protected virtual ushort GetRequestLength(byte[] bytes)
         {
-            return ObexBitConverter.ToUInt16(new byte[] { bytes[1], bytes[2] });
+            return ObexBitConverter.ToUInt16(new[] { bytes[1], bytes[2] });
         }
 
         /// <summary>

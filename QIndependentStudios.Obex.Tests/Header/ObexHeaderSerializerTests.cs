@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QIndependentStudios.Obex.Converter.Header;
 using QIndependentStudios.Obex.Header;
 using System;
 using System.Linq;
@@ -13,7 +12,7 @@ namespace QIndependentStudios.Obex.Tests.Header
         [ExpectedException(typeof(NotSupportedException))]
         public void Serialize_UnsupportedHeaderId_ThrowsException()
         {
-            var header = TextObexHeader.Create(ObexHeaderId.Permissions, "Unknown");
+            var header = new UnsupportedObexHeader();
 
             ObexHeaderSerializer.Serialize(header);
         }
@@ -55,14 +54,52 @@ namespace QIndependentStudios.Obex.Tests.Header
         }
 
         [TestMethod]
-        public void Deserialize_UnsupportedHeaderId_ReturnsRawHeaderObject()
+        public void Deserialize_UnsupportedUnicodeHeaderId_ReturnsUnicodeTextHeaderObject()
         {
-            var data = new byte[] { 0xD6, 0x00, 0x04, 0x30 };
-            var expected = RawObexHeader.Create(ObexHeaderId.Permissions, 0x30);
+            var data = new byte[] { 0x3F, 0x00, 0x07, 0x00, 0x30, 0x00, 0x00 };
+            var expected = UnicodeTextObexHeader.Create((ObexHeaderId)0x3F, 7, "0");
 
             var actual = ObexHeaderSerializer.Deserialize(data);
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void Deserialize_UnsupportedByteSequenceHeaderId_ReturnsRawHeaderObject()
+        {
+            var data = new byte[] { 0x7F, 0x00, 0x04, 0x30 };
+            var expected = RawObexHeader.Create((ObexHeaderId)0x7F, 0x30);
+
+            var actual = ObexHeaderSerializer.Deserialize(data);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Deserialize_UnsupportedSingleByteHeaderId_ReturnsByteHeaderObject()
+        {
+            var data = new byte[] { 0xBF, 0x30 };
+            var expected = ByteObexHeader.Create((ObexHeaderId)0xBF, 0x30);
+
+            var actual = ObexHeaderSerializer.Deserialize(data);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Deserialize_UnsupportedFourBytesHeaderId_ReturnsUInt32HeaderObject()
+        {
+            var data = new byte[] { 0xFF, 0x00, 0x00, 0x00, 0x01 };
+            var expected = UInt32ObexHeader.Create((ObexHeaderId)0xFF, 1);
+
+            var actual = ObexHeaderSerializer.Deserialize(data);
+
+            Assert.AreEqual(expected, actual);
+        }
+    }
+
+    public class UnsupportedObexHeader : ObexHeader
+    {
+
     }
 }

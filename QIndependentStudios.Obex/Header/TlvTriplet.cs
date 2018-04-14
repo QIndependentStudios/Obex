@@ -4,36 +4,36 @@ using System;
 namespace QIndependentStudios.Obex.Header
 {
     /// <summary>
-    /// Represents an Obex application parameter that can be included in an Obex application parameter header.
+    /// Represents an tag-value-length triplet that can be included in an Obex header.
     /// </summary>
-    public class ObexAppParameter
+    public class TlvTriplet
     {
-        private ObexAppParameter()
+        private TlvTriplet()
         { }
 
         /// <summary>
-        /// Gets the tag determining what kind of parameter it is.
+        /// Gets the tag component of the triplet.
         /// </summary>
         public byte Tag { get; protected set; }
 
         /// <summary>
-        /// Gets the value of the parameter.
+        /// Gets the value component of the triplet.
         /// </summary>
         public byte[] Value { get; protected set; }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="ObexAppParameter"/> class.
+        /// Creates a new instance of the <see cref="TlvTriplet"/> class.
         /// </summary>
-        /// <param name="tag"></param>
-        /// <param name="value"></param>
+        /// <param name="tag">The tag determining what the value is for.</param>
+        /// <param name="value">The value of the triplet.</param>
         /// <returns></returns>
-        public static ObexAppParameter Create(byte tag, params byte[] value)
-            => new ObexAppParameter { Tag = tag, Value = value };
+        public static TlvTriplet Create(byte tag, params byte[] value)
+            => new TlvTriplet { Tag = tag, Value = value };
 
 #pragma warning disable CS1591
         public override bool Equals(object obj)
         {
-            return obj is ObexAppParameter parameter
+            return obj is TlvTriplet parameter
                 && Tag == parameter.Tag
                 && new SequenceEqualityComparer<byte>().Equals(Value, parameter.Value);
         }
@@ -48,7 +48,7 @@ namespace QIndependentStudios.Obex.Header
 
         public override string ToString()
         {
-            var tag = BitConverter.ToString(new byte[] { Tag });
+            var tag = BitConverter.ToString(new[] { Tag });
             return $"{tag} {BitConverter.ToString(Value)}";
         }
 #pragma warning restore CS1591

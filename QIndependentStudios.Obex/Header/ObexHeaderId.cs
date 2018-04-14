@@ -1,9 +1,12 @@
-﻿namespace QIndependentStudios.Obex.Header
+﻿using System;
+
+namespace QIndependentStudios.Obex.Header
 {
     /// <summary>
     /// Specifies the type of value an Obex header has.
     /// </summary>
-    public enum ObexHeaderId : byte
+    [Flags]
+    public enum ObexHeaderId
     {
         /// <summary>
         /// Unknown or undefined Obex header id.

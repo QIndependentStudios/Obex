@@ -9,8 +9,8 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
     public class ByteObexHeaderConverterTests
     {
         private const byte TestHeaderValue = 0x01;
-        private static readonly byte[] _testHeaderData = new byte[] { 0x97, 0x01 };
-        private static readonly ObexHeader _testHeader =
+        private static readonly byte[] TestHeaderData = { 0x97, 0x01 };
+        private static readonly ObexHeader TestHeader =
             ByteObexHeader.Create(ObexHeaderId.SingleResponseMode, TestHeaderValue);
 
         private readonly ByteObexHeaderConverter _converter = ByteObexHeaderConverter.Instance;
@@ -18,17 +18,17 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
         [TestMethod]
         public void FromBytes_GivenHeaderByteData_ReturnsHeaderObject()
         {
-            var actual = _converter.FromBytes(_testHeaderData);
+            var actual = _converter.FromBytes(TestHeaderData);
 
-            Assert.AreEqual(_testHeader, actual);
+            Assert.AreEqual(TestHeader, actual);
         }
 
         [TestMethod]
         public void ToBytes_GivenHeaderObject_ReturnsHeaderByteData()
         {
-            var actual = _converter.ToBytes(_testHeader);
+            var actual = _converter.ToBytes(TestHeader);
 
-            Assert.IsTrue(_testHeaderData.SequenceEqual(actual));
+            Assert.IsTrue(TestHeaderData.SequenceEqual(actual));
         }
     }
 }

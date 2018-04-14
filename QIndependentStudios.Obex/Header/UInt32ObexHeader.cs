@@ -8,13 +8,9 @@ namespace QIndependentStudios.Obex.Header
     public class UInt32ObexHeader : ObexHeader
     {
         private UInt32ObexHeader()
-        { }
-
-        /// <summary>
-        /// If available, gets the total length of the binary data of the the header.
-        /// Usually set if the header was created by deserialization or if the header has a fixed length.
-        /// </summary>
-        public override ushort? ActualLength => 5;
+        {
+            ActualLength = 5;
+        }
 
         /// <summary>
         /// Gets the value of the header.

@@ -8,18 +8,18 @@ namespace QIndependentStudios.Obex.Converter.Header
     /// <summary>
     /// Converts Obex Application Parameter headers to and from binary data.
     /// </summary>
-    public class AppParamObexHeaderConverter : RawObexHeaderConverter
+    public class TlvCollectionObexHeaderConverter : RawObexHeaderConverter
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppParamObexHeaderConverter"/> class.
+        /// Initializes a new instance of the <see cref="TlvCollectionObexHeaderConverter"/> class.
         /// </summary>
-        protected AppParamObexHeaderConverter()
+        protected TlvCollectionObexHeaderConverter()
         { }
 
         /// <summary>
-        /// Gets the instance of the <see cref="AppParamObexHeaderConverter"/> class.
+        /// Gets the instance of the <see cref="TlvCollectionObexHeaderConverter"/> class.
         /// </summary>
-        public new static AppParamObexHeaderConverter Instance { get; } = new AppParamObexHeaderConverter();
+        public new static TlvCollectionObexHeaderConverter Instance { get; } = new TlvCollectionObexHeaderConverter();
 
         /// <summary>
         /// Converts binary data to an Obex header object.
@@ -31,7 +31,8 @@ namespace QIndependentStudios.Obex.Converter.Header
             var parametersData = ExtractValueBytes(bytes);
             var parameters = GetApplicationParameters(parametersData);
 
-            return AppParamObexHeader.Create(GetHeaderSize(bytes), parameters);
+            return TlvCollectionObexHeader.Create((ObexHeaderId)bytes[0],
+                GetHeaderSize(bytes), parameters);
         }
 
         /// <summary>
@@ -41,15 +42,15 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// <returns>The binary data of the header's value.</returns>
         protected override byte[] ValueToBytes(ObexHeader header)
         {
-            if (header is AppParamObexHeader appParamHeader)
-                return GetBytes(appParamHeader.Parameters);
+            if (header is TlvCollectionObexHeader appParamHeader)
+                return GetBytes(appParamHeader.Tlvs);
 
             return new byte[0];
         }
 
-        private IEnumerable<ObexAppParameter> GetApplicationParameters(byte[] bytes)
+        private static IEnumerable<TlvTriplet> GetApplicationParameters(byte[] bytes)
         {
-            var parameters = new List<ObexAppParameter>();
+            var parameters = new List<TlvTriplet>();
             var offset = 0;
 
             while (offset < bytes.Length)
@@ -61,13 +62,13 @@ namespace QIndependentStudios.Obex.Converter.Header
                 var value = new ArraySegment<byte>(bytes, offset, length);
                 offset += length;
 
-                parameters.Add(ObexAppParameter.Create(tag, value.ToArray()));
+                parameters.Add(TlvTriplet.Create(tag, value.ToArray()));
             }
 
             return parameters;
         }
 
-        private byte[] GetBytes(IEnumerable<ObexAppParameter> appParameters)
+        private static byte[] GetBytes(IEnumerable<TlvTriplet> appParameters)
         {
             var bytes = new List<byte>();
             foreach (var param in appParameters)

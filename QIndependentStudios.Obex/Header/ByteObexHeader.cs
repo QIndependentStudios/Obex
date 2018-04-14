@@ -8,13 +8,9 @@ namespace QIndependentStudios.Obex.Header
     public class ByteObexHeader : ObexHeader
     {
         private ByteObexHeader()
-        { }
-
-        /// <summary>
-        /// If available, gets the total length of the binary data of the the header.
-        /// Usually set if the header was created by deserialization or if the header has a fixed length.
-        /// </summary>
-        public override ushort? ActualLength => 2;
+        {
+            ActualLength = 2;
+        }
 
         /// <summary>
         /// Gets the value of the header.

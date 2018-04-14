@@ -188,7 +188,7 @@ namespace QIndependentStudios.Obex
                 && Flags == request.Flags
                 && MaxPacketSize == request.MaxPacketSize;
         }
-                
+
         public override int GetHashCode()
         {
             var hashCode = -1647789284;

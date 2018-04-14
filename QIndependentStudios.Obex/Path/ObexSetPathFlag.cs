@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the direction when through Obex directories.
     /// </summary>
-    public enum ObexSetPathFlag : byte
+    public enum ObexSetPathFlag
     {
         /// <summary>
         /// When a Name header is used in the request, this causes directory navigation to go to the child folder with that name.

@@ -25,7 +25,7 @@ namespace QIndependentStudios.Obex
                 throw new ArgumentException("Guids must be exactly 16 bytes in length.");
 
             if (BitConverter.IsLittleEndian)
-                b = new byte[]
+                b = new[]
                 {
                     b[3], b[2], b[1], b[0],
                     b[5], b[4],
@@ -107,7 +107,7 @@ namespace QIndependentStudios.Obex
             if (encoding == null)
                 encoding = Encoding.UTF8;
 
-            if (encoding == Encoding.Unicode)
+            if (encoding.Equals(Encoding.Unicode))
                 encoding = Encoding.BigEndianUnicode;
 
             return encoding.GetBytes(text);
@@ -194,7 +194,7 @@ namespace QIndependentStudios.Obex
             if (encoding == null)
                 encoding = Encoding.UTF8;
 
-            if (encoding == Encoding.Unicode || encoding == Encoding.BigEndianUnicode)
+            if (encoding.Equals(Encoding.Unicode) || encoding.Equals(Encoding.BigEndianUnicode))
                 throw new ArgumentException($"Use {nameof(ToUnicodeString)}() when expecting unicode encoding.",
                     nameof(encoding));
 

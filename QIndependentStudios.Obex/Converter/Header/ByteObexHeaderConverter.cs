@@ -19,11 +19,6 @@ namespace QIndependentStudios.Obex.Converter.Header
         public static ByteObexHeaderConverter Instance { get; } = new ByteObexHeaderConverter();
 
         /// <summary>
-        /// Gets the header's size that should be used instead of calculating it.
-        /// </summary>
-        public override int? HeaderLengthOverride => 2;
-
-        /// <summary>
         /// Converts binary data to an Obex header object.
         /// </summary>
         /// <param name="bytes">The binary data to deserialize.</param>
@@ -41,7 +36,7 @@ namespace QIndependentStudios.Obex.Converter.Header
         protected override byte[] ValueToBytes(ObexHeader header)
         {
             if (header is ByteObexHeader byteHeader)
-                return new byte[] { byteHeader.Value };
+                return new[] { byteHeader.Value };
 
             return new byte[0];
         }

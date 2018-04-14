@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace QIndependentStudios.Obex.Comparison
@@ -10,7 +9,6 @@ namespace QIndependentStudios.Obex.Comparison
         {
             return (x == null && y == null)
                 || IsSameSequence(x.ToList(), y.ToList());
-            throw new NotImplementedException();
         }
 
         public int GetHashCode(IEnumerable<TItem> obj)

@@ -65,7 +65,7 @@ namespace QIndependentStudios.Obex
                 && EqualityComparer<ushort?>.Default.Equals(ActualLength, request.ActualLength)
                 && new SequenceEqualityComparer<ObexHeader>().Equals(_headers, request._headers);
         }
-                
+
         public override int GetHashCode()
         {
             var hashCode = -1935681702;

@@ -46,7 +46,7 @@ namespace QIndependentStudios.Obex.Header
                 && base.Equals(obj)
                 && new SequenceEqualityComparer<byte>().Equals(Value, header.Value);
         }
-                
+
         public override int GetHashCode()
         {
             var hashCode = -783812246;
@@ -54,7 +54,7 @@ namespace QIndependentStudios.Obex.Header
             hashCode = hashCode * -1521134295 + new SequenceEqualityComparer<byte>().GetHashCode(Value);
             return hashCode;
         }
-                
+
         public override string ToString()
         {
             return $"{Id} - {Value}";

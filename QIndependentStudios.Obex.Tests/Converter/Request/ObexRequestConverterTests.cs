@@ -10,7 +10,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
     [TestClass]
     public class ObexRequestConverterTests
     {
-        private static readonly byte[] _testRequestData = new byte[]
+        private static readonly byte[] TestRequestData =
         {
             0x83, 0x00, 0x21, 0xCB, 0x00, 0x00, 0x00, 0x01,
             0x42, 0x00, 0x19, 0x78, 0x2D, 0x6F, 0x62, 0x65,
@@ -18,7 +18,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
             0x2D, 0x6C, 0x69, 0x73, 0x74, 0x69, 0x6E, 0x67,
             0x00
         };
-        private static readonly ObexRequest _testRequest = ObexRequest.Create(ObexOpCode.Get,
+        private static readonly ObexRequest TestRequest = ObexRequest.Create(ObexOpCode.Get,
             33,
             UInt32ObexHeader.Create(ObexHeaderId.ConnectionId, 1),
             TextObexHeader.Create(ObexHeaderId.Type, 25, "x-obex/folder-listing"));
@@ -27,9 +27,9 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
         [TestMethod]
         public void FromBytes_GivenRequestData_ReturnsRequestObject()
         {
-            var actual = _converter.FromBytes(_testRequestData);
+            var actual = _converter.FromBytes(TestRequestData);
 
-            Assert.AreEqual(_testRequest, actual);
+            Assert.AreEqual(TestRequest, actual);
         }
 
         [TestMethod]
@@ -63,9 +63,9 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
         [TestMethod]
         public void ToBytes_GivenRequestObject_ReturnsRequestData()
         {
-            var actual = _converter.ToBytes(_testRequest);
+            var actual = _converter.ToBytes(TestRequest);
 
-            Assert.IsTrue(_testRequestData.SequenceEqual(actual));
+            Assert.IsTrue(TestRequestData.SequenceEqual(actual));
         }
 
         [TestMethod]

@@ -19,11 +19,6 @@ namespace QIndependentStudios.Obex.Converter.Header
         public static UInt32ObexHeaderConverter Instance { get; } = new UInt32ObexHeaderConverter();
 
         /// <summary>
-        /// Gets the header's size that should be used instead of calculating it.
-        /// </summary>
-        public override int? HeaderLengthOverride => 5;
-
-        /// <summary>
         /// Converts binary data to an Obex header object.
         /// </summary>
         /// <param name="bytes">The binary data to deserialize.</param>
