@@ -26,7 +26,7 @@ namespace QIndependentStudios.Obex.Tests
         [TestMethod]
         public void Create_SetPathFlag_HeaderParams_RequestCreatesCorrectly()
         {
-            var header = TextObexHeader.Create(ObexHeaderId.Name, TestFolder);
+            var header = ByteSequenceObexHeader.Create(ObexHeaderId.Name, TestFolder);
             var actual = ObexSetPathRequest.Create(ObexSetPathFlag.DownToNameOrRoot, header);
 
             Assert.AreEqual(ObexOpCode.SetPath, actual.OpCode);
@@ -41,7 +41,7 @@ namespace QIndependentStudios.Obex.Tests
         {
             var headers = new List<ObexHeader>
             {
-                TextObexHeader.Create(ObexHeaderId.Name, TestFolder)
+                ByteSequenceObexHeader.Create(ObexHeaderId.Name, TestFolder)
             };
             var actual = ObexSetPathRequest.Create(ObexSetPathFlag.DownToNameOrRoot, headers);
 
@@ -67,7 +67,7 @@ namespace QIndependentStudios.Obex.Tests
         [TestMethod]
         public void Create_RequestLength_SetPathFlag_HeaderParams_RequestCreatesCorrectly()
         {
-            var header = TextObexHeader.Create(ObexHeaderId.Name, TestFolder);
+            var header = ByteSequenceObexHeader.Create(ObexHeaderId.Name, TestFolder);
             var actual = ObexSetPathRequest.Create(11, ObexSetPathFlag.DownToNameOrRoot, header);
 
             Assert.AreEqual(ObexOpCode.SetPath, actual.OpCode);
@@ -82,7 +82,7 @@ namespace QIndependentStudios.Obex.Tests
         {
             var headers = new List<ObexHeader>
             {
-                TextObexHeader.Create(ObexHeaderId.Name, TestFolder)
+                ByteSequenceObexHeader.Create(ObexHeaderId.Name, TestFolder)
             };
             var actual = ObexSetPathRequest.Create(11, ObexSetPathFlag.DownToNameOrRoot, headers);
 
@@ -108,7 +108,7 @@ namespace QIndependentStudios.Obex.Tests
         [TestMethod]
         public void Create_SetPathFlag_Constant_HeaderParams_RequestCreatesCorrectly()
         {
-            var header = TextObexHeader.Create(ObexHeaderId.Name, TestFolder);
+            var header = ByteSequenceObexHeader.Create(ObexHeaderId.Name, TestFolder);
             var actual = ObexSetPathRequest.Create(ObexSetPathFlag.DownToNameOrRoot, 0x11, header);
 
             Assert.AreEqual(ObexOpCode.SetPath, actual.OpCode);
@@ -123,7 +123,7 @@ namespace QIndependentStudios.Obex.Tests
         {
             var headers = new List<ObexHeader>
             {
-                TextObexHeader.Create(ObexHeaderId.Name, TestFolder)
+                ByteSequenceObexHeader.Create(ObexHeaderId.Name, TestFolder)
             };
             var actual = ObexSetPathRequest.Create(ObexSetPathFlag.DownToNameOrRoot, 0x11, headers);
 
@@ -149,7 +149,7 @@ namespace QIndependentStudios.Obex.Tests
         [TestMethod]
         public void Create_RequestLength_SetPathFlag_Constant_HeaderParams_RequestCreatesCorrectly()
         {
-            var header = TextObexHeader.Create(ObexHeaderId.Name, TestFolder);
+            var header = ByteSequenceObexHeader.Create(ObexHeaderId.Name, TestFolder);
             var actual = ObexSetPathRequest.Create(11, ObexSetPathFlag.DownToNameOrRoot, 0x11, header);
 
             Assert.AreEqual(ObexOpCode.SetPath, actual.OpCode);
@@ -164,7 +164,7 @@ namespace QIndependentStudios.Obex.Tests
         {
             var headers = new List<ObexHeader>
             {
-                TextObexHeader.Create(ObexHeaderId.Name, TestFolder)
+                ByteSequenceObexHeader.Create(ObexHeaderId.Name, TestFolder)
             };
             var actual = ObexSetPathRequest.Create(11, ObexSetPathFlag.DownToNameOrRoot, 0x11, headers);
 

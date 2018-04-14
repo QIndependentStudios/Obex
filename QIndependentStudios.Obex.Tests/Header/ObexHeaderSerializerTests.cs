@@ -18,24 +18,10 @@ namespace QIndependentStudios.Obex.Tests.Header
         }
 
         [TestMethod]
-        public void Serialize_RawObexHeader_SerializesAsRawIgnoringHeaderId()
-        {
-            // EndOfBody would normally be serialized using the TextObexHeaderConverter that would
-            // automatically append a char.MinValue causing a 5th byte of 0x00. Testing to ensure
-            // RawObexHeaders ignore other converters and just serialize as is.
-            var header = RawObexHeader.Create(ObexHeaderId.EndOfBody, 0x30);
-            var expected = new byte[] { 0x49, 0x00, 0x04, 0x30 };
-
-            var actual = ObexHeaderSerializer.Serialize(header);
-
-            Assert.IsTrue(expected.SequenceEqual(actual));
-        }
-
-        [TestMethod]
         public void Serialize_SupportedHeaderId_ReturnsSerializedData()
         {
-            var header = TextObexHeader.Create(ObexHeaderId.EndOfBody, "0");
-            var expected = new byte[] { 0x49, 0x00, 0x05, 0x30, 0x00 };
+            var header = UnicodeTextObexHeader.Create(ObexHeaderId.Name, "0");
+            var expected = new byte[] { 0x01, 0x00, 0x07, 0x00, 0x30, 0x00, 0x00 };
 
             var actual = ObexHeaderSerializer.Serialize(header);
 
@@ -45,8 +31,8 @@ namespace QIndependentStudios.Obex.Tests.Header
         [TestMethod]
         public void Deserialize_SupportedHeaderId_ReturnsCorrectHeaderObject()
         {
-            var data = new byte[] { 0x49, 0x00, 0x05, 0x30, 0x00 };
-            var expected = TextObexHeader.Create(ObexHeaderId.EndOfBody, 5, "0");
+            var data = new byte[] { 0x01, 0x00, 0x07, 0x00, 0x30, 0x00, 0x00 };
+            var expected = UnicodeTextObexHeader.Create(ObexHeaderId.Name, 7, "0");
 
             var actual = ObexHeaderSerializer.Deserialize(data);
 
@@ -65,10 +51,10 @@ namespace QIndependentStudios.Obex.Tests.Header
         }
 
         [TestMethod]
-        public void Deserialize_UnsupportedByteSequenceHeaderId_ReturnsRawHeaderObject()
+        public void Deserialize_UnsupportedByteSequenceHeaderId_ReturnsByteSequenceHeaderObject()
         {
             var data = new byte[] { 0x7F, 0x00, 0x04, 0x30 };
-            var expected = RawObexHeader.Create((ObexHeaderId)0x7F, 0x30);
+            var expected = ByteSequenceObexHeader.Create((ObexHeaderId)0x7F, 0x30);
 
             var actual = ObexHeaderSerializer.Deserialize(data);
 

@@ -7,7 +7,7 @@ namespace QIndependentStudios.Obex.Converter.Header
     /// <summary>
     /// Converts unicode text value Obex headers to and from binary data.
     /// </summary>
-    public class UnicodeTextObexHeaderConverter : RawObexHeaderConverter
+    public class UnicodeTextObexHeaderConverter : ObexHeaderConverterBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnicodeTextObexHeaderConverter"/> class.
@@ -18,7 +18,7 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// <summary>
         /// Gets the instance of the <see cref="UnicodeTextObexHeaderConverter"/> class.
         /// </summary>
-        public new static UnicodeTextObexHeaderConverter Instance { get; } = new UnicodeTextObexHeaderConverter();
+        public static UnicodeTextObexHeaderConverter Instance { get; } = new UnicodeTextObexHeaderConverter();
 
         /// <summary>
         /// Converts binary data to an Obex header object.

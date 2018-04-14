@@ -3,20 +3,20 @@
 namespace QIndependentStudios.Obex.Converter.Header
 {
     /// <summary>
-    /// Converts raw binary value Obex headers to and from binary data.
+    /// Converts byte sequence Obex headers to and from binary data.
     /// </summary>
-    public class RawObexHeaderConverter : ObexHeaderConverterBase
+    public class ByteSequenceObexHeaderConverter : ObexHeaderConverterBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RawObexHeaderConverter"/> class.
+        /// Initializes a new instance of the <see cref="ByteSequenceObexHeaderConverter"/> class.
         /// </summary>
-        protected RawObexHeaderConverter()
+        protected ByteSequenceObexHeaderConverter()
         { }
 
         /// <summary>
-        /// Gets the instance of the <see cref="RawObexHeaderConverter"/> class.
+        /// Gets the instance of the <see cref="ByteSequenceObexHeaderConverter"/> class.
         /// </summary>
-        public static RawObexHeaderConverter Instance { get; } = new RawObexHeaderConverter();
+        public static ByteSequenceObexHeaderConverter Instance { get; } = new ByteSequenceObexHeaderConverter();
 
         /// <summary>
         /// Converts binary data to an Obex header object.
@@ -25,7 +25,7 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// <returns>The deserialized Obex header.</returns>
         public override ObexHeader FromBytes(byte[] bytes)
         {
-            return RawObexHeader.Create((ObexHeaderId)bytes[0], ExtractValueBytes(bytes));
+            return ByteSequenceObexHeader.Create((ObexHeaderId)bytes[0], ExtractValueBytes(bytes));
         }
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// <returns>The binary data of the header's value.</returns>
         protected override byte[] ValueToBytes(ObexHeader header)
         {
-            if (header is RawObexHeader rawheader)
-                return rawheader.Value;
+            if (header is ByteSequenceObexHeader byteSequenceheader)
+                return byteSequenceheader.Value;
 
             return new byte[0];
         }

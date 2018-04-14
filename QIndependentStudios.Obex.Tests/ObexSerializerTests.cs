@@ -9,7 +9,8 @@ namespace QIndependentStudios.Obex.Tests
     [TestClass]
     public class ObexSerializerTests
     {
-        private static readonly byte[] TestRequestData = {
+        private static readonly byte[] TestRequestData =
+            {
             0x83, 0x00, 0x21, 0xCB, 0x00, 0x00, 0x00, 0x01,
             0x42, 0x00, 0x19, 0x78, 0x2D, 0x6F, 0x62, 0x65,
             0x78, 0x2F, 0x66, 0x6F, 0x6C, 0x64, 0x65, 0x72,
@@ -41,7 +42,7 @@ namespace QIndependentStudios.Obex.Tests
         private static readonly ObexRequestBase TestRequest = ObexRequest.Create(ObexOpCode.Get,
             33,
             UInt32ObexHeader.Create(ObexHeaderId.ConnectionId, 1),
-            TextObexHeader.Create(ObexHeaderId.Type, 25, "x-obex/folder-listing"));
+            ByteSequenceObexHeader.Create(ObexHeaderId.Type, "x-obex/folder-listing"));
         private static readonly ObexRequestBase TestConnectRequest = ObexConnectRequest.Create(26,
             5120,
             GuidObexHeader.Create(ObexHeaderId.Target, 19, Guid.Parse("bb582b40-420c-11db-b0de-0800200c9a66")));

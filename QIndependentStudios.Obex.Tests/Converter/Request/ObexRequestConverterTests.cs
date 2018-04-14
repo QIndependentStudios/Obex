@@ -21,7 +21,7 @@ namespace QIndependentStudios.Obex.Tests.Converter.Request
         private static readonly ObexRequest TestRequest = ObexRequest.Create(ObexOpCode.Get,
             33,
             UInt32ObexHeader.Create(ObexHeaderId.ConnectionId, 1),
-            TextObexHeader.Create(ObexHeaderId.Type, 25, "x-obex/folder-listing"));
+            ByteSequenceObexHeader.Create(ObexHeaderId.Type, "x-obex/folder-listing"));
         private readonly ObexRequestConverter _converter = ObexRequestConverter.Instance;
 
         [TestMethod]

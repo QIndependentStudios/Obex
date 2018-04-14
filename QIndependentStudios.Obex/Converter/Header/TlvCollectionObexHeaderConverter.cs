@@ -6,9 +6,9 @@ using System.Linq;
 namespace QIndependentStudios.Obex.Converter.Header
 {
     /// <summary>
-    /// Converts Obex Application Parameter headers to and from binary data.
+    /// Converts tag-length-value collection Obex headers to and from binary data.
     /// </summary>
-    public class TlvCollectionObexHeaderConverter : RawObexHeaderConverter
+    public class TlvCollectionObexHeaderConverter : ObexHeaderConverterBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TlvCollectionObexHeaderConverter"/> class.
@@ -19,7 +19,7 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// <summary>
         /// Gets the instance of the <see cref="TlvCollectionObexHeaderConverter"/> class.
         /// </summary>
-        public new static TlvCollectionObexHeaderConverter Instance { get; } = new TlvCollectionObexHeaderConverter();
+        public static TlvCollectionObexHeaderConverter Instance { get; } = new TlvCollectionObexHeaderConverter();
 
         /// <summary>
         /// Converts binary data to an Obex header object.

@@ -6,7 +6,7 @@ using System.Linq;
 namespace QIndependentStudios.Obex.Tests.Converter.Header
 {
     [TestClass]
-    public class TextObexHeaderConverterTests
+    public class ByteSequenceObexHeaderConverterTests
     {
         private static readonly byte[] TestHeaderData =
         {
@@ -14,11 +14,10 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
             0x4D, 0x41, 0x50, 0x2D, 0x6D, 0x73, 0x67, 0x2D,
             0x6C, 0x69, 0x73, 0x74, 0x69, 0x6E, 0x67, 0x00
         };
-        private static readonly ObexHeader TestHeader = TextObexHeader.Create(ObexHeaderId.Type,
-            24,
-            "x-bt/MAP-msg-listing");
+        private static readonly ObexHeader TestHeader = ByteSequenceObexHeader.Create(ObexHeaderId.Type,
+            TestHeaderData.Skip(3).ToArray());
 
-        private readonly TextObexHeaderConverter _converter = TextObexHeaderConverter.Instance;
+        private readonly ByteSequenceObexHeaderConverter _converter = ByteSequenceObexHeaderConverter.Instance;
 
         [TestMethod]
         public void FromBytes_GivenHeaderByteData_ReturnsHeaderObject()

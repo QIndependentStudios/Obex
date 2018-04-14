@@ -15,7 +15,6 @@ namespace QIndependentStudios.Obex.Header
             {
                 { ObexHeaderId.Count, UInt32ObexHeaderConverter.Instance },
                 { ObexHeaderId.Name, UnicodeTextObexHeaderConverter.Instance },
-                { ObexHeaderId.Type, TextObexHeaderConverter.Instance },
                 { ObexHeaderId.Length, UInt32ObexHeaderConverter.Instance },
                 //TODO: handle time header
                 { ObexHeaderId.Description, UnicodeTextObexHeaderConverter.Instance },
@@ -23,21 +22,17 @@ namespace QIndependentStudios.Obex.Header
                 { ObexHeaderId.ApplicationParameter, TlvCollectionObexHeaderConverter.Instance },
                 { ObexHeaderId.AuthenticationChallenge, TlvCollectionObexHeaderConverter.Instance },
                 { ObexHeaderId.AuthenticationResponse, TlvCollectionObexHeaderConverter.Instance },
-                { ObexHeaderId.SingleResponseMode, ByteObexHeaderConverter.Instance },
-                { ObexHeaderId.SingleResponseModeParameter, ByteObexHeaderConverter.Instance},
-
-                // Raw but has recommended format
                 { ObexHeaderId.Target, GuidObexHeaderConverter.Instance },
-                { ObexHeaderId.Body, TextObexHeaderConverter.Instance },
-                { ObexHeaderId.EndOfBody, TextObexHeaderConverter.Instance },
-                { ObexHeaderId.Who, GuidObexHeaderConverter.Instance }
+                { ObexHeaderId.Who, GuidObexHeaderConverter.Instance },
+                { ObexHeaderId.SingleResponseMode, ByteObexHeaderConverter.Instance },
+                { ObexHeaderId.SingleResponseModeParameter, ByteObexHeaderConverter.Instance}
             };
 
         private static readonly Dictionary<ObexHeaderEncoding, IObexHeaderConverter> ConvertersByEncoding =
             new Dictionary<ObexHeaderEncoding, IObexHeaderConverter>
             {
                 { ObexHeaderEncoding.NullTermUnicodeWithLength, UnicodeTextObexHeaderConverter.Instance },
-                { ObexHeaderEncoding.ByteSequenceWithLength, RawObexHeaderConverter.Instance },
+                { ObexHeaderEncoding.ByteSequenceWithLength, ByteSequenceObexHeaderConverter.Instance },
                 { ObexHeaderEncoding.SingleByte, ByteObexHeaderConverter.Instance },
                 { ObexHeaderEncoding.FourBytes, UInt32ObexHeaderConverter.Instance }
             };
@@ -47,8 +42,7 @@ namespace QIndependentStudios.Obex.Header
             {
                 { typeof(ByteObexHeader), ByteObexHeaderConverter.Instance },
                 { typeof(GuidObexHeader), GuidObexHeaderConverter.Instance },
-                { typeof(RawObexHeader), RawObexHeaderConverter.Instance },
-                { typeof(TextObexHeader), TextObexHeaderConverter.Instance },
+                { typeof(ByteSequenceObexHeader), ByteSequenceObexHeaderConverter.Instance },
                 { typeof(TlvCollectionObexHeader), TlvCollectionObexHeaderConverter.Instance },
                 { typeof(UInt32ObexHeader), UInt32ObexHeaderConverter.Instance },
                 { typeof(UnicodeTextObexHeader), UnicodeTextObexHeaderConverter.Instance },
@@ -67,7 +61,7 @@ namespace QIndependentStudios.Obex.Header
             var converter = ConvertersByType[header.GetType()];
             return converter.ToBytes(header);
         }
-        
+
         /// <summary>
         /// Deserializes the specified bytes.
         /// </summary>
