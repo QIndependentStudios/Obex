@@ -1,4 +1,5 @@
 ﻿using QIndependentStudios.Obex.Connection;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,11 +22,25 @@ namespace QIndependentStudios.Obex
         }
 
         /// <summary>
+        /// Gets or sets the timeout duration in milliseconds when making a request.
+        /// </summary>
+        public int Timeout { get; set; } = 10000;
+
+        /// <summary>
         /// Makes a request and waits for a response.
         /// </summary>
         /// <param name="request">The request to send.</param>
-        /// <returns>The response received from the request.</returns>
-        public async Task<ObexResponseBase> GetAsync(ObexRequestBase request)
+        /// <returns>The response received from the server.</returns>
+        public async Task<ObexResponseBase> RequestAsync(ObexRequestBase request)
+        {
+            var task = RequestCoreAsync(request);
+            if (await Task.WhenAny(task, Task.Delay(Timeout)) == task)
+                return task.Result;
+
+            throw new TimeoutException();
+        }
+
+        private async Task<ObexResponseBase> RequestCoreAsync(ObexRequestBase request)
         {
             await _connection.EnsureInitAsync();
             await _connection.WriteAsync(ObexSerializer.SerializeRequest(request));
