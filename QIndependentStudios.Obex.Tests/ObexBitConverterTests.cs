@@ -28,18 +28,18 @@ namespace QIndependentStudios.Obex.Tests
         }
 
         [TestMethod]
-        public void GetBytes_StringWithNullEncoding_ReturnsUtf8Bytes()
+        public void GetBytes_StringWithNullEncoding_ReturnsAsciiBytes()
         {
+            var expected = new byte[] { 0x41, 0x31, 0x3F, 0x3F };
             var actual = ObexBitConverter.GetBytes(TestString);
-            Assert.IsTrue(TestStringBytes.SequenceEqual(actual));
+            Assert.IsTrue(expected.SequenceEqual(actual));
         }
 
         [TestMethod]
-        public void GetBytes_StringWithAsciiEncoding_ReturnAsciiBytes()
+        public void GetBytes_StringWithUtf8Encoding_ReturnUtf8Bytes()
         {
-            var expected = new byte[] { 0x41, 0x31, 0x3F, 0x3F };
-            var actual = ObexBitConverter.GetBytes(TestString, Encoding.ASCII);
-            Assert.IsTrue(expected.SequenceEqual(actual));
+            var actual = ObexBitConverter.GetBytes(TestString, Encoding.UTF8);
+            Assert.IsTrue(TestStringBytes.SequenceEqual(actual));
         }
 
         [TestMethod]

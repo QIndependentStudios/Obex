@@ -95,6 +95,12 @@ namespace QIndependentStudios.Obex.Converter.Header
         /// <returns></returns>
         protected ushort GetHeaderSize(byte[] bytes)
         {
+            var id = (ObexHeaderId)bytes[0];
+            if (ObexHeaderUtil.GetHeaderEncoding(id) == ObexHeaderEncoding.SingleByte)
+                return 2;
+            if (ObexHeaderUtil.GetHeaderEncoding(id) == ObexHeaderEncoding.FourBytes)
+                return 5;
+
             return ObexBitConverter.ToUInt16(new[] { bytes[1], bytes[2] });
         }
 

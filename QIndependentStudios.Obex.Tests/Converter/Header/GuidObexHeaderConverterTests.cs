@@ -26,9 +26,6 @@ namespace QIndependentStudios.Obex.Tests.Converter.Header
         {
             var actual = _converter.FromBytes(TestHeaderData);
 
-            Assert.AreEqual(ObexHeaderId.Target, actual.Id);
-            Assert.IsInstanceOfType(actual, typeof(GuidObexHeader));
-
             Assert.AreEqual(TestHeader, actual);
         }
 

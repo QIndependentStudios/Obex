@@ -16,7 +16,8 @@ namespace QIndependentStudios.Obex.Header
                 { ObexHeaderId.Count, UInt32ObexHeaderConverter.Instance },
                 { ObexHeaderId.Name, UnicodeTextObexHeaderConverter.Instance },
                 { ObexHeaderId.Length, UInt32ObexHeaderConverter.Instance },
-                //TODO: handle time header
+                { ObexHeaderId.Time, DateTimeObexHeaderConverter.Instance },
+                { ObexHeaderId.Time4Byte, DateTimeObexHeaderConverter.Instance },
                 { ObexHeaderId.Description, UnicodeTextObexHeaderConverter.Instance },
                 { ObexHeaderId.ConnectionId, UInt32ObexHeaderConverter.Instance },
                 { ObexHeaderId.ApplicationParameter, TlvCollectionObexHeaderConverter.Instance },

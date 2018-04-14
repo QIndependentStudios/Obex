@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -10,6 +11,8 @@ namespace QIndependentStudios.Obex
     /// </summary>
     public class ObexBitConverter
     {
+        private const string Iso8601DateTimeFormat = "yyyyMMdd'T'HHmmss";
+
         private static byte[] AdjustEndian(IEnumerable<byte> bytes)
         {
             if (BitConverter.IsLittleEndian)
@@ -99,28 +102,39 @@ namespace QIndependentStudios.Obex
         /// <summary>
         /// Converts a <see cref="string"/> value to network order binary format based on encoding.
         /// </summary>
-        /// <param name="text">The value to convert.</param>
+        /// <param name="value">The value to convert.</param>
         /// <param name="encoding">The encoding of the text value.</param>
         /// <returns>The converted value.</returns>
-        public static byte[] GetBytes(string text, Encoding encoding = null)
+        public static byte[] GetBytes(string value, Encoding encoding = null)
         {
             if (encoding == null)
-                encoding = Encoding.UTF8;
+                encoding = Encoding.ASCII;
 
             if (encoding.Equals(Encoding.Unicode))
                 encoding = Encoding.BigEndianUnicode;
 
-            return encoding.GetBytes(text);
+            return encoding.GetBytes(value);
         }
 
         /// <summary>
-        /// Converts a <see cref="ushort"/> value to network order binary format.
+        /// Converts a <see cref="Guid"/> value to network order binary format.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The converted value.</returns>
+        public static byte[] GetBytes(Guid value)
+        {
+            return AdjustGuidEndian(value.ToByteArray());
+        }
+        
+        /// <summary>
+        /// Converts a <see cref="DateTime"/> value to network order binary format.
         /// </summary>
         /// <param name="guid">The value to convert.</param>
         /// <returns>The converted value.</returns>
-        public static byte[] GetBytes(Guid guid)
+        public static byte[] GetBytes(DateTime value)
         {
-            return AdjustGuidEndian(guid.ToByteArray());
+            var formattedDateTime = value.ToString(Iso8601DateTimeFormat, CultureInfo.InvariantCulture);
+            return GetBytes(formattedDateTime, Encoding.ASCII);
         }
 
         /// <summary>
@@ -219,6 +233,17 @@ namespace QIndependentStudios.Obex
         public static Guid ToGuid(byte[] bytes)
         {
             return new Guid(AdjustGuidEndian(bytes));
+        }
+
+        /// <summary>
+        /// Converts network order binary data to a <see cref="DateTime"/> value.
+        /// </summary>
+        /// <param name="bytes">The binary data to convert.</param>
+        /// <returns>The converted value.</returns>
+        public static DateTime ToDateTime(byte[] bytes)
+        {
+            var dateTime = ToString(bytes);
+            return DateTime.ParseExact(dateTime, Iso8601DateTimeFormat, CultureInfo.InvariantCulture);
         }
     }
 }
