@@ -125,11 +125,11 @@ namespace QIndependentStudios.Obex
         {
             return AdjustGuidEndian(value.ToByteArray());
         }
-        
+
         /// <summary>
         /// Converts a <see cref="DateTime"/> value to network order binary format.
         /// </summary>
-        /// <param name="guid">The value to convert.</param>
+        /// <param name="value">The value to convert.</param>
         /// <returns>The converted value.</returns>
         public static byte[] GetBytes(DateTime value)
         {

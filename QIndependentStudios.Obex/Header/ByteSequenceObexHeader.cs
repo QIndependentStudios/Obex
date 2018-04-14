@@ -46,6 +46,7 @@ namespace QIndependentStudios.Obex.Header
         /// </summary>
         /// <param name="id">The id of the header.</param>
         /// <param name="value">The value of the header.</param>
+        /// <param name="encoding">The encoding used to convert the string into bytes.</param>
         /// <returns>The created header.</returns>
         public static ByteSequenceObexHeader Create(ObexHeaderId id, string value, Encoding encoding = null)
         {
