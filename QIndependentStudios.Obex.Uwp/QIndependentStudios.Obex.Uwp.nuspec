@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>QIndependentStudios.Obex.Uwp</id>
-    <version>1.0.0.2</version>
+    <version>1.0.0.3</version>
     <title>QIndependentStudios.Obex.Uwp</title>
     <!-- nuget.exe pack command failes if $author$ is used for authors -->
     <authors>QIndependentStudios</authors>
@@ -18,7 +18,7 @@
     <dependencies>
       <group targetFramework="uap10.0">
         <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="6.0.8" />
-        <dependency id="QIndependentStudios.Obex" version="1.0.0.2-alpha" />
+        <dependency id="QIndependentStudios.Obex" version="1.0.0.3-alpha" />
       </group>
     </dependencies>
   </metadata>
