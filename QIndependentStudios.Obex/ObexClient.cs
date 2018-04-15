@@ -1,5 +1,4 @@
 ﻿using QIndependentStudios.Obex.Connection;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,20 +32,11 @@ namespace QIndependentStudios.Obex
         /// <returns>The response received from the server.</returns>
         public async Task<ObexResponseBase> RequestAsync(ObexRequestBase request)
         {
-            var task = RequestCoreAsync(request);
-            if (await Task.WhenAny(task, Task.Delay(Timeout)) == task)
-                return task.Result;
-
-            throw new TimeoutException();
-        }
-
-        private async Task<ObexResponseBase> RequestCoreAsync(ObexRequestBase request)
-        {
             await _connection.EnsureInitAsync();
-            await _connection.WriteAsync(ObexSerializer.SerializeRequest(request));
+            await _connection.WriteAsync(ObexSerializer.SerializeRequest(request)).WithTimeout(Timeout);
 
-            return ObexSerializer.DeserializeResponse(await ReadPacketDataAsync(),
-                request.OpCode == ObexOpCode.Connect);
+            var responseData = await ReadPacketDataAsync().WithTimeout(Timeout);
+            return ObexSerializer.DeserializeResponse(responseData, request.OpCode == ObexOpCode.Connect);
         }
 
         private async Task<byte[]> ReadPacketDataAsync()

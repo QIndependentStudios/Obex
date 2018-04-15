@@ -1,8 +1,6 @@
 ﻿using QIndependentStudios.Obex.Connection;
-using QIndependentStudios.Obex.Header;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace QIndependentStudios.Obex
@@ -42,55 +40,27 @@ namespace QIndependentStudios.Obex
         {
             while (true)
             {
-                var request = await AwaitTaskWithTimeout(ReadNextRequest());
+                var opCodeByte = (await _connection.ReadAsync(1))[0];
+                var request = await ReadRequest(opCodeByte).WithTimeout(Timeout);
 
                 var response = requestHandler(request);
-                await AwaitTaskWithTimeout(_connection.WriteAsync(ObexSerializer.SerializeResponse(response)));
+                await _connection.WriteAsync(ObexSerializer.SerializeResponse(response)).WithTimeout(Timeout);
             }
         }
 
-        private async Task AwaitTaskWithTimeout(Task task)
+        private async Task<ObexRequestBase> ReadRequest(byte opCodeByte)
         {
-            if (await Task.WhenAny(task, Task.Delay(Timeout)) != task)
-                throw new TimeoutException();
-        }
+            var bytes = new List<byte> { opCodeByte };
 
-        private async Task<T> AwaitTaskWithTimeout<T>(Task<T> task)
-        {
-            if (await Task.WhenAny(task, Task.Delay(Timeout)) == task)
-                return task.Result;
+            var packetLengthBytes = await _connection.ReadAsync(2);
+            bytes.AddRange(packetLengthBytes);
 
-            throw new TimeoutException();
-        }
-
-        private async Task<ObexRequestBase> ReadNextRequest()
-        {
-            var id = (ObexHeaderId)(await _connection.ReadAsync(1))[1];
-            var bytes = await ReadRemainingRequestData(id);
-
-            return ObexSerializer.DeserializeRequest(bytes.ToArray());
-        }
-
-        private async Task<IEnumerable<byte>> ReadRemainingRequestData(ObexHeaderId id)
-        {
-            var bytes = new List<byte> { (byte)id };
-            var bytesRemaining = 0;
-
-            if (ObexHeaderUtil.GetHeaderEncoding(id) == ObexHeaderEncoding.SingleByte)
-                bytesRemaining = 1;
-            else if (ObexHeaderUtil.GetHeaderEncoding(id) == ObexHeaderEncoding.FourBytes)
-                bytesRemaining = 4;
-            else
-            {
-                var packetLengthBytes = await _connection.ReadAsync(2);
-                bytes.AddRange(packetLengthBytes);
-
-                bytesRemaining = ObexBitConverter.ToUInt16(packetLengthBytes) - bytes.Count;
-            }
+            var bytesRemaining = ObexBitConverter.ToUInt16(packetLengthBytes) - bytes.Count;
 
             if (bytesRemaining > 0)
                 bytes.AddRange(await _connection.ReadAsync((uint)bytesRemaining));
-            return bytes;
+
+            return ObexSerializer.DeserializeRequest(bytes.ToArray());
         }
     }
 }
