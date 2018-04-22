@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 
 namespace QIndependentStudios.Obex.Header
 {
@@ -24,6 +26,17 @@ namespace QIndependentStudios.Obex.Header
                 return ObexHeaderEncoding.FourBytes;
 
             throw new ArgumentOutOfRangeException();
+        }
+
+        public static string GetBodyContent(ObexResponseBase response, Encoding encoding)
+        {
+            if (response.GetHeadersForId(ObexHeaderId.Body).FirstOrDefault() is ByteSequenceObexHeader body)
+                return body.GetValueAsString(encoding);
+
+            if (response.GetHeadersForId(ObexHeaderId.EndOfBody).FirstOrDefault() is ByteSequenceObexHeader endOfBody)
+                return endOfBody.GetValueAsString(encoding);
+
+            return null;
         }
 
         private static bool IsEncoding(ObexHeaderId id, ObexHeaderEncoding encoding)

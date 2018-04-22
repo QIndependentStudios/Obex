@@ -1,4 +1,4 @@
-﻿namespace QIndependentStudios.Obex.Path
+﻿namespace QIndependentStudios.Obex.Service
 {
     /// <summary>
     /// Specifies the direction when through Obex directories.

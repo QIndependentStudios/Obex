@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QIndependentStudios.Obex.Converter.Request;
 using QIndependentStudios.Obex.Header;
-using QIndependentStudios.Obex.Path;
+using QIndependentStudios.Obex.Service;
 using System;
 using System.Linq;
 
