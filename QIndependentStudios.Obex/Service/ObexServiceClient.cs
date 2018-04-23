@@ -16,17 +16,31 @@ namespace QIndependentStudios.Obex.Service
     /// </summary>
     public class ObexServiceClient
     {
-        private const string FolderBrowsingService = "f9ec7bc4-953c-11d2-984e-525400dc9e09";
+        /// <summary>
+        /// The folder browsing service Uuid defined in the specs.
+        /// </summary>
+        public static Guid FolderBrowsingServiceUuid = Guid.Parse("f9ec7bc4-953c-11d2-984e-525400dc9e09");
 
-        private readonly ObexClient _client;
-        private readonly Guid _serviceTarget;
-        private uint _connectionId;
+        /// <summary>
+        /// The underlying Obex client to make requests and recieve responses.
+        /// </summary>
+        protected readonly ObexClient _client;
+
+        /// <summary>
+        /// The service Uuid of the service on the Obex server used when calling <see cref="ConnectAsync"/>.
+        /// </summary>
+        protected readonly Guid _serviceTarget;
+
+        /// <summary>
+        /// The connection id returned from the Obex server after calling <see cref="ConnectAsync"/>.
+        /// </summary>
+        protected uint _connectionId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObexServiceClient"/> class with a connection and a service target.
         /// </summary>
         /// <param name="connection">The connection to the Obex server.</param>
-        /// <param name="serviceTarget">The service Uuid for the service to connect to.</param>
+        /// <param name="serviceTarget">The service Uuid of the service on the Obex server to connect to.</param>
         public ObexServiceClient(IObexConnection connection, Guid serviceTarget)
         {
             _client = new ObexClient(connection);

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>QIndependentStudios.Obex.Uwp</id>
-    <version>1.0.0.4</version>
+    <version>1.0.0.5</version>
     <title>QIndependentStudios.Obex.Uwp</title>
     <authors>QIndependentStudios</authors>
     <owners>QIndependentStudios</owners>
@@ -17,7 +17,7 @@
     <dependencies>
       <group targetFramework="uap10.0">
         <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="6.0.8" />
-        <dependency id="QIndependentStudios.Obex" version="1.0.0.4-alpha" />
+        <dependency id="QIndependentStudios.Obex" version="1.0.0.5-alpha" />
       </group>
     </dependencies>
   </metadata>
