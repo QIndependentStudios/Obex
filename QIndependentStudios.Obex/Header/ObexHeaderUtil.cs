@@ -10,10 +10,10 @@ namespace QIndependentStudios.Obex.Header
     public class ObexHeaderUtil
     {
         /// <summary>
-        /// Gets an Obex header's id.
+        /// Gets an Obex header id's encoding defined by the id's two most significant bits.
         /// </summary>
         /// <param name="id">The Obex header id to retrieve the encoding from.</param>
-        /// <returns></returns>
+        /// <returns>The encoding embedded in the header id's bytes.</returns>
         public static ObexHeaderEncoding GetHeaderEncoding(ObexHeaderId id)
         {
             if (IsEncoding(id, ObexHeaderEncoding.NullTermUnicodeWithLength))
@@ -28,6 +28,12 @@ namespace QIndependentStudios.Obex.Header
             throw new ArgumentOutOfRangeException();
         }
 
+        /// <summary>
+        /// Gets a response's Body or EndOfBody header as a string.
+        /// </summary>
+        /// <param name="response">The response that contains a Body or EndOfBody header.</param>
+        /// <param name="encoding">The encoding to convert the Body or EndOfBody's value into a string.</param>
+        /// <returns>The value of the Body or EndOfBody as a string.</returns>
         public static string GetBodyContent(ObexResponseBase response, Encoding encoding)
         {
             if (response.GetHeadersForId(ObexHeaderId.Body).FirstOrDefault() is ByteSequenceObexHeader body)

@@ -11,19 +11,32 @@ using System.Xml.Serialization;
 
 namespace QIndependentStudios.Obex.Service
 {
+    /// <summary>
+    /// An Obex client that provides basic service implementations.
+    /// </summary>
     public class ObexServiceClient
     {
         private const string FolderBrowsingService = "f9ec7bc4-953c-11d2-984e-525400dc9e09";
+
         private readonly ObexClient _client;
         private readonly Guid _serviceTarget;
         private uint _connectionId;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObexServiceClient"/> class with a connection and a service target.
+        /// </summary>
+        /// <param name="connection">The connection to the Obex server.</param>
+        /// <param name="serviceTarget">The service Uuid for the service to connect to.</param>
         public ObexServiceClient(IObexConnection connection, Guid serviceTarget)
         {
             _client = new ObexClient(connection);
             _serviceTarget = serviceTarget;
         }
 
+        /// <summary>
+        /// Connects to the specified service on the Obex server.
+        /// </summary>
+        /// <returns></returns>
         public async Task ConnectAsync()
         {
             var request = ObexConnectRequest.Create(5120,
@@ -37,6 +50,10 @@ namespace QIndependentStudios.Obex.Service
             _connectionId = connectionIdHeader?.Value ?? 0;
         }
 
+        /// <summary>
+        /// Requests a listing of folders at the current folder location on the Obex server.
+        /// </summary>
+        /// <returns>A collection of Obex folder listing items.</returns>
         public async Task<IEnumerable<ObexFolderListingItem>> GetFoldersAsync()
         {
             var request = ObexRequest.Create(ObexOpCode.Get,
@@ -68,6 +85,11 @@ namespace QIndependentStudios.Obex.Service
             }
         }
 
+        /// <summary>
+        /// Changes the folder location to a sub-folder located at the current location on the Obex server.
+        /// </summary>
+        /// <param name="folderName">The name of the sub-folder.</param>
+        /// <returns>Whether the operation was successful.</returns>
         public async Task<bool> NavigateToFolderAsync(string folderName)
         {
             if (string.IsNullOrEmpty(folderName))
@@ -76,11 +98,19 @@ namespace QIndependentStudios.Obex.Service
             return await NavigateFolderCoreAsync(ObexSetPathFlag.DownToNameOrRoot, folderName);
         }
 
+        /// <summary>
+        /// Changes the folder location to the root folder of the Obex server.
+        /// </summary>
+        /// <returns>Whether the operation was successful.</returns>
         public async Task<bool> NavigateToRootFolderAsync()
         {
             return await NavigateFolderCoreAsync(ObexSetPathFlag.DownToNameOrRoot, null);
         }
 
+        /// <summary>
+        /// Changes the folder location to be one level up from current location on the Obex server.
+        /// </summary>
+        /// <returns>Whether the operation was successful.</returns>
         public async Task<bool> NavigateUpFolderAsync()
         {
             return await NavigateFolderCoreAsync(ObexSetPathFlag.Up, null);
