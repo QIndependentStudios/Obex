@@ -1,5 +1,7 @@
 ﻿using QIndependentStudios.Obex.Connection;
+using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace QIndependentStudios.Obex
@@ -7,9 +9,10 @@ namespace QIndependentStudios.Obex
     /// <summary>
     /// Provides a class for sending Obex request and receiving Obex responses.
     /// </summary>
-    public class ObexClient
+    public class ObexClient : IDisposable
     {
         private readonly IObexConnection _connection;
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObexClient"/> class.
@@ -32,11 +35,25 @@ namespace QIndependentStudios.Obex
         /// <returns>The response received from the server.</returns>
         public async Task<ObexResponseBase> RequestAsync(ObexRequestBase request)
         {
-            await _connection.EnsureInitAsync();
-            await _connection.WriteAsync(ObexSerializer.SerializeRequest(request)).WithTimeout(Timeout);
+            await _semaphore.WaitAsync();
+            try
+            {
+                await _connection.EnsureInitAsync();
+                await _connection.WriteAsync(ObexSerializer.SerializeRequest(request)).WithTimeout(Timeout);
 
-            var responseData = await ReadPacketDataAsync().WithTimeout(Timeout);
-            return ObexSerializer.DeserializeResponse(responseData, request.OpCode == ObexOpCode.Connect);
+                var responseData = await ReadPacketDataAsync().WithTimeout(Timeout);
+                return ObexSerializer.DeserializeResponse(responseData, request.OpCode == ObexOpCode.Connect);
+            }
+            finally { _semaphore.Release(); }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            _connection.Dispose();
+            _semaphore.Dispose();
         }
 
         private async Task<byte[]> ReadPacketDataAsync()
