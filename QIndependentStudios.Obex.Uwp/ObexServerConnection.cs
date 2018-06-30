@@ -38,10 +38,13 @@ namespace QIndependentStudios.Obex.Uwp
         /// Creates an new instance of an <see cref="ObexServerConnection"/> for a discoverable <see cref="RfcommServiceId"/>.
         /// </summary>
         /// <param name="serviceId">The service that will be advertised for a connection over rfcomm.</param>
-        /// <param name="attributes">The rfcomm attributes that can be queried by potential clients.</param>
+        /// <param name="attributes">
+        /// The rfcomm attributes that can be queried by potential clients.
+        /// The key is the attribute id and the value is attribute data in binary form.
+        /// </param>
         /// <returns>Returns an Obex server connection for the specified rfcomm service id.</returns>
         public static ObexServerConnection Create(RfcommServiceId serviceId,
-            IDictionary<byte, byte[]> attributes)
+            IDictionary<uint, byte[]> attributes)
         {
             return new RfcommServiceObexServerConnection(serviceId, attributes);
         }
@@ -83,13 +86,13 @@ namespace QIndependentStudios.Obex.Uwp
     internal class RfcommServiceObexServerConnection : ObexServerConnection
     {
         private readonly RfcommServiceId _serviceId;
-        private readonly IDictionary<byte, byte[]> _attributes;
+        private readonly IDictionary<uint, byte[]> _attributes;
 
         private RfcommServiceProvider _provider;
         private TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>();
 
         public RfcommServiceObexServerConnection(RfcommServiceId serviceId,
-            IDictionary<byte, byte[]> attributes)
+            IDictionary<uint, byte[]> attributes)
         {
             _serviceId = serviceId;
             _attributes = attributes;
