@@ -8,14 +8,14 @@ namespace QIndependentStudios.Obex
         public static async Task WithTimeout(this Task task, int timeout)
         {
             var timeoutTask = Task.Delay(timeout);
-            if (await Task.WhenAny(task, Task.Delay(timeout)) == timeoutTask)
+            if (await Task.WhenAny(task, timeoutTask) == timeoutTask)
                 throw new TimeoutException();
         }
 
         public static async Task<T> WithTimeout<T>(this Task<T> task, int timeout)
         {
             var timeoutTask = Task.Delay(timeout);
-            if (await Task.WhenAny(task, Task.Delay(timeout)) == timeoutTask)
+            if (await Task.WhenAny(task, timeoutTask) == timeoutTask)
                 throw new TimeoutException();
 
             return task.Result;
